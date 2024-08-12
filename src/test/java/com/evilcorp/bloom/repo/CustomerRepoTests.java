@@ -34,7 +34,7 @@ public class CustomerRepoTests {
   }
 
   @Test
-  public void testFindCustomerByEmail_Failure() {
+  public void testFindCustomerByEmail_NotFound() {
 
     Optional<Customer> foundCustomer = customerRepo.findByEmail("dne@email.com");
     assertThat(foundCustomer.isEmpty());
