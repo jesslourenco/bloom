@@ -27,6 +27,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
+      - name: Resolve dependencies
+        run: mvn dependency:resolve
+
       - name: Run Unit tests
         env:
           DB_TESTNAME: ${{ secrets.DB_TESTNAME }}
