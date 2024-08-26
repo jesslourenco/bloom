@@ -47,3 +47,12 @@ spring:
   sql:
     init:
       mode: always
+
+  springdoc:
+  enabled: false # Disable Swagger during tests
+
+  management:
+    endpoints:
+      web:
+        exposure:
+          include: none # Disable Actuator endpoints during tests
