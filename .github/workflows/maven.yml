@@ -30,9 +30,6 @@ jobs:
       - name: Resolve dependencies
         run: mvn dependency:resolve
 
-      - name: Debug: Print env vars
-        run: printenv | grep DB_
-
       - name: Run Unit tests
         env:
           DB_TESTNAME: ${{ secrets.DB_TESTNAME }}
