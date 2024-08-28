@@ -40,7 +40,6 @@ spring:
     exclude:
       - org.springdoc.webmvc.core.configuration.SpringDocWebMvcConfiguration
       - org.springdoc.webmvc.core.configuration.MultipleOpenApiSupportConfiguration
-      - org.springdoc.webmvc.core.configuration.MultipleOpenApiSupportConfiguration$SpringDocWebMvcActuatorDifferentConfiguration
   config:
     activate:
       on-profile: test
