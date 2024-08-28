@@ -40,6 +40,8 @@ spring:
     exclude:
       - org.springdoc.webmvc.core.configuration.SpringDocWebMvcConfiguration
       - org.springdoc.webmvc.core.configuration.MultipleOpenApiSupportConfiguration
+      - org.springframework.boot.actuate.autoconfigure.web.server.ManagementContextAutoConfiguration
+      - org.springframework.boot.actuate.autoconfigure.endpoint.web.WebEndpointAutoConfiguration
   config:
     activate:
       on-profile: test
@@ -60,3 +62,8 @@ spring:
       web:
         exposure:
           include: none # Disable Actuator endpoints during tests
+  health:
+    db:
+      enabled: false
+    defaults:
+      enabled: false
