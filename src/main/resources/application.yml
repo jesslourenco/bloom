@@ -36,6 +36,11 @@ springdoc:
 
 ---
 spring:
+  autoconfigure:
+    exclude:
+      - org.springdoc.webmvc.core.configuration.SpringDocWebMvcConfiguration
+      - org.springdoc.webmvc.core.configuration.MultipleOpenApiSupportConfiguration
+      - org.springdoc.webmvc.core.configuration.MultipleOpenApiSupportConfiguration$SpringDocWebMvcActuatorDifferentConfiguration
   config:
     activate:
       on-profile: test
@@ -49,7 +54,7 @@ spring:
       mode: always
 
   springdoc:
-  enabled: false # Disable Swagger during tests
+    enabled: false # Disable Swagger during tests
 
   management:
     endpoints:
