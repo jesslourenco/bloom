@@ -57,4 +57,5 @@ management:
       enabled: false
     defaults:
       enabled: false
-
+server:
+  port: 0
