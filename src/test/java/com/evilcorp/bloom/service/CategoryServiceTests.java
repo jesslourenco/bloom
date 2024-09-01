@@ -3,6 +3,7 @@ package com.evilcorp.bloom.service;
 import static org.mockito.Mockito.*;
 import static org.assertj.core.api.Assertions.*;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -11,7 +12,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.actuate.autoconfigure.metrics.MetricsProperties.Data;
 import org.springframework.dao.DataIntegrityViolationException;
 
 import com.evilcorp.bloom.repo.CategoryRepo;
@@ -125,4 +125,15 @@ public class CategoryServiceTests {
     verify(categoryRepo, times(1)).findById(dto.parentCategory);
   }
 
+  @Test
+  public void testGetAllCategories() {
+    Iterable<Category> mockCategories = Arrays.asList(category, categoryWithParent);
+
+    when(categoryRepo.findAll()).thenReturn(mockCategories);
+    Iterable<Category> categories = categoryService.getAll();
+
+    verify(categoryRepo, times(1)).findAll();
+    assertThat(categories).hasSize(2);
+    assertThat(categories).containsExactlyInAnyOrderElementsOf(mockCategories);
+  }
 }
