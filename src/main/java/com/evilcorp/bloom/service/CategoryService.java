@@ -1,6 +1,9 @@
 package com.evilcorp.bloom.service;
 
+import java.util.Arrays;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 import org.springframework.dao.DataIntegrityViolationException;
 
 import com.evilcorp.bloom.dto.CategoryDto;
@@ -17,9 +20,20 @@ public class CategoryService {
     this.categoryRepo = categoryRepo;
   }
 
+  public String capitalize(String categoryName) {
+    if (categoryName.isEmpty() || categoryName == null) {
+      return categoryName;
+    }
+
+    return Arrays.stream(categoryName
+        .split("\\s+"))
+        .map(word -> word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase())
+        .collect(Collectors.joining(" "));
+  }
+
   public void add(CategoryDto dto) {
 
-    dto.category = dto.category.substring(0, 1).toUpperCase() + dto.category.substring(1).toLowerCase();
+    dto.category = capitalize(dto.category);
 
     Optional<Category> newCategory = categoryRepo.findByName(dto.category);
 
@@ -46,8 +60,10 @@ public class CategoryService {
   }
 
   public Category getOneByName(String name) {
-    return categoryRepo.findByName(name)
-        .orElseThrow(() -> new NotFoundException(String.format("Category %s not found", name)));
+    String category = capitalize(name);
+
+    return categoryRepo.findByName(category)
+        .orElseThrow(() -> new NotFoundException(String.format("Category %s not found", category)));
   }
 
   public void deleteOneById(Integer id) {

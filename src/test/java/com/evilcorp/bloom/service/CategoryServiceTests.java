@@ -6,6 +6,8 @@ import static org.assertj.core.api.Assertions.*;
 import java.util.Arrays;
 import java.util.Optional;
 
+import javax.swing.text.html.Option;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -135,5 +137,29 @@ public class CategoryServiceTests {
     verify(categoryRepo, times(1)).findAll();
     assertThat(categories).hasSize(2);
     assertThat(categories).containsExactlyInAnyOrderElementsOf(mockCategories);
+  }
+
+  @Test
+  public void testGetOneByName() {
+    String name = "electronics";
+    when(categoryRepo.findByName(category.getName())).thenReturn(Optional.of(category));
+
+    Category foundCategory = categoryService.getOneByName(name);
+
+    verify(categoryRepo, times(1)).findByName(category.getName());
+    assertThat(foundCategory.getName().equals(category.getName()));
+    assertThat(foundCategory.getId().equals(category.getId()));
+    assertThat(foundCategory.getParentCategoryId() == null);
+  }
+
+  @Test
+  public void testGetOneByName_NotFound() {
+    String name = "Garden";
+    when(categoryRepo.findByName(name)).thenReturn(Optional.empty());
+
+    assertThatThrownBy(() -> categoryService.getOneByName(name))
+        .isInstanceOf(NotFoundException.class);
+
+    verify(categoryRepo, times(1)).findByName(name);
   }
 }
