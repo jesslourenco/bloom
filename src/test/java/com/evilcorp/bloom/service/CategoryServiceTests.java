@@ -162,4 +162,25 @@ public class CategoryServiceTests {
 
     verify(categoryRepo, times(1)).findByName(name);
   }
+
+  @Test
+  public void testDeleteOneById() {
+    when(categoryRepo.findById(category.getId())).thenReturn(Optional.of(category));
+
+    categoryService.deleteOneById(category.getId());
+
+    verify(categoryRepo, times(1)).findById(category.getId());
+    verify(categoryRepo, times(1)).deleteById(category.getId());
+  }
+
+  @Test
+  public void testDeleteOneById_NotFound() {
+    when(categoryRepo.findById(category.getId())).thenReturn(Optional.empty());
+
+    assertThatThrownBy(() -> categoryService.deleteOneById(category.getId()))
+        .isInstanceOf(NotFoundException.class);
+
+    verify(categoryRepo, times(1)).findById(category.getId());
+    verify(categoryRepo, times(0)).deleteById(category.getId());
+  }
 }
