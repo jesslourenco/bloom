@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.stereotype.Service;
 
 import com.evilcorp.bloom.dto.CategoryDto;
 import com.evilcorp.bloom.model.Category;
@@ -12,6 +13,7 @@ import com.evilcorp.bloom.repo.CategoryRepo;
 import com.evilcorp.bloom.exception.NestedSubcategoriesException;
 import com.evilcorp.bloom.exception.NotFoundException;
 
+@Service
 public class CategoryService {
 
   private final CategoryRepo categoryRepo;
@@ -41,17 +43,17 @@ public class CategoryService {
       throw new DataIntegrityViolationException(String.format("Category %s already exists", dto.category));
     }
 
-    if (dto.parentCategory != null) {
-      Category parent = categoryRepo.findById(dto.parentCategory)
+    if (dto.parentCategoryId != null) {
+      Category parent = categoryRepo.findById(dto.parentCategoryId)
           .orElseThrow(() -> new NotFoundException(
-              String.format("Parent category with id %d does not exist", dto.parentCategory)));
+              String.format("Parent category with id %d does not exist", dto.parentCategoryId)));
 
       if (parent.getParentCategoryId() != null) {
         throw new NestedSubcategoriesException("Parent cannot be a subcategory");
       }
     }
 
-    Category category = new Category(dto.category, dto.parentCategory);
+    Category category = new Category(dto.category, dto.parentCategoryId);
     categoryRepo.save(category);
   }
 

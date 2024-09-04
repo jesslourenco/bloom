@@ -11,5 +11,5 @@ public class CategoryDto {
   public String category;
 
   @PositiveOrZero(message = "Parent category id must be an integer: zero or greater")
-  public Integer parentCategory;
+  public Integer parentCategoryId;
 }

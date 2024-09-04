@@ -30,7 +30,7 @@ public class CategoryDtoTests {
   public void testValidDTO() {
     CategoryDto dto = new CategoryDto();
     dto.category = "Electronics";
-    dto.parentCategory = null;
+    dto.parentCategoryId = null;
 
     Set<ConstraintViolation<CategoryDto>> violations = validator.validate(dto);
     assertTrue(violations.isEmpty());

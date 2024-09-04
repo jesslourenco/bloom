@@ -46,7 +46,7 @@ public class CategoryServiceTests {
   public void testAdd_Success() {
     CategoryDto dto = new CategoryDto();
     dto.category = "electronics";
-    dto.parentCategory = null;
+    dto.parentCategoryId = null;
 
     when(categoryRepo.findByName(category.getName())).thenReturn(Optional.empty());
     categoryService.add(dto);
@@ -63,16 +63,16 @@ public class CategoryServiceTests {
   public void testAdd_SuccessSubCategory() {
     CategoryDto dto = new CategoryDto();
     dto.category = "laptops";
-    dto.parentCategory = category.getId();
+    dto.parentCategoryId = category.getId();
 
-    categoryWithParent.setParentCategoryId(dto.parentCategory);
+    categoryWithParent.setParentCategoryId(dto.parentCategoryId);
 
     when(categoryRepo.findByName(categoryWithParent.getName())).thenReturn(Optional.empty());
-    when(categoryRepo.findById(dto.parentCategory)).thenReturn(Optional.of(category));
+    when(categoryRepo.findById(dto.parentCategoryId)).thenReturn(Optional.of(category));
     categoryService.add(dto);
 
     verify(categoryRepo, times(1)).findByName(categoryWithParent.getName());
-    verify(categoryRepo, times(1)).findById(dto.parentCategory);
+    verify(categoryRepo, times(1)).findById(dto.parentCategoryId);
 
     verify(categoryRepo, times(1))
         .save(argThat(c -> c.getName().equals(categoryWithParent.getName()) &&
@@ -83,7 +83,7 @@ public class CategoryServiceTests {
   public void testAdd_CategoryAlreadyExists() {
     CategoryDto dto = new CategoryDto();
     dto.category = "electronics";
-    dto.parentCategory = null;
+    dto.parentCategoryId = null;
 
     when(categoryRepo.findByName(category.getName())).thenReturn(Optional.of(
         category));
@@ -99,32 +99,32 @@ public class CategoryServiceTests {
   public void testAdd_ParentDoesNotExist() {
     CategoryDto dto = new CategoryDto();
     dto.category = "laptops";
-    dto.parentCategory = category.getId();
+    dto.parentCategoryId = category.getId();
 
     when(categoryRepo.findByName(categoryWithParent.getName())).thenReturn(Optional.empty());
-    when(categoryRepo.findById(dto.parentCategory)).thenReturn(Optional.empty());
+    when(categoryRepo.findById(dto.parentCategoryId)).thenReturn(Optional.empty());
 
     assertThatThrownBy(() -> categoryService.add(dto))
         .isInstanceOf(NotFoundException.class);
 
     verify(categoryRepo, times(1)).findByName(categoryWithParent.getName());
-    verify(categoryRepo, times(1)).findById(dto.parentCategory);
+    verify(categoryRepo, times(1)).findById(dto.parentCategoryId);
   }
 
   @Test
   public void testAdd_ParentIsSubcategory() {
     CategoryDto dto = new CategoryDto();
     dto.category = "Macbooks";
-    dto.parentCategory = categoryWithParent.getId();
+    dto.parentCategoryId = categoryWithParent.getId();
 
     when(categoryRepo.findByName(dto.category)).thenReturn(Optional.empty());
-    when(categoryRepo.findById(dto.parentCategory)).thenReturn(Optional.of(categoryWithParent));
+    when(categoryRepo.findById(dto.parentCategoryId)).thenReturn(Optional.of(categoryWithParent));
 
     assertThatThrownBy(() -> categoryService.add(dto))
         .isInstanceOf(NestedSubcategoriesException.class);
 
     verify(categoryRepo, times(1)).findByName(dto.category);
-    verify(categoryRepo, times(1)).findById(dto.parentCategory);
+    verify(categoryRepo, times(1)).findById(dto.parentCategoryId);
   }
 
   @Test
