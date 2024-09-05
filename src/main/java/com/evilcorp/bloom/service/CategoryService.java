@@ -34,7 +34,6 @@ public class CategoryService {
   }
 
   public void add(CategoryDto dto) {
-
     dto.category = capitalize(dto.category);
 
     Optional<Category> newCategory = categoryRepo.findByName(dto.category);
