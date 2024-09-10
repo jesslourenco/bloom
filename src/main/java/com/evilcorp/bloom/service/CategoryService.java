@@ -23,6 +23,10 @@ public class CategoryService {
   }
 
   public String capitalize(String categoryName) {
+    /**
+     * Capitalizes every word in a given String.
+     */
+
     if (categoryName == null || categoryName.isEmpty()) {
       return categoryName;
     }
