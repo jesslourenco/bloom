@@ -17,9 +17,14 @@ import com.evilcorp.bloom.exception.NotFoundException;
 public class CategoryService {
 
   private final CategoryRepo categoryRepo;
+  private final String anyWhitespace;
+  private final String emptySpace;
 
   public CategoryService(CategoryRepo categoryRepo) {
     this.categoryRepo = categoryRepo;
+    this.anyWhitespace = "\\s+";
+    this.emptySpace = " ";
+
   }
 
   public String capitalize(String categoryName) {
@@ -32,9 +37,9 @@ public class CategoryService {
     }
 
     return Arrays.stream(categoryName
-        .split("\\s+"))
+        .split(anyWhitespace))
         .map(word -> word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase())
-        .collect(Collectors.joining(" "));
+        .collect(Collectors.joining(emptySpace));
   }
 
   public void add(CategoryDto dto) {
