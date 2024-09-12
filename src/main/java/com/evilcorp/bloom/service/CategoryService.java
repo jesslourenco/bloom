@@ -27,11 +27,10 @@ public class CategoryService {
 
   }
 
+  /*
+   * Capitalizes every word in a given String.
+   */
   public String capitalize(String categoryName) {
-    /**
-     * Capitalizes every word in a given String.
-     */
-
     if (categoryName == null || categoryName.isEmpty()) {
       return categoryName;
     }
