@@ -3,6 +3,9 @@ package com.evilcorp.bloom.controller;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +15,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 import com.evilcorp.bloom.dto.CategoryDto;
 import com.evilcorp.bloom.exception.GlobalExceptionHandler;
@@ -19,6 +23,7 @@ import com.evilcorp.bloom.exception.NotFoundException;
 import com.evilcorp.bloom.model.Category;
 import com.evilcorp.bloom.service.CategoryService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jayway.jsonpath.JsonPath;
 
 import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.*;
@@ -103,5 +108,23 @@ public class CategoryControllerTests {
         .content(objectMapper.writeValueAsString(badDto)))
         .andExpect(status().isBadRequest())
         .andExpect(jsonPath("$.category").value("Category name cannot be blank"));
+  }
+
+  @Test
+  public void testGetAllCategories() throws Exception {
+    List<Category> categories = new ArrayList<>();
+
+    categories.add(category);
+    categories.add(subcategory);
+
+    when(categoryService.getAll()).thenReturn(categories);
+
+    mockMvc.perform(get("/api/categories")
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.size()").value(2))
+        .andExpect(jsonPath("$[*].name", containsInAnyOrder(category.getName(), subcategory.getName())))
+        .andExpect(jsonPath("$[*].parentCategoryId",
+            contains(null, subcategory.getParentCategoryId())));
   }
 }
