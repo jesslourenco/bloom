@@ -37,7 +37,7 @@ public class CategoryController {
   }
 
   @PostMapping("/find-by-name")
-  public Category getCategoryByName(String name) {
+  public Category getCategoryByName(@RequestBody String name) {
     return categoryService.getOneByName(name);
   }
 

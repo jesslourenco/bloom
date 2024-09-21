@@ -127,4 +127,29 @@ public class CategoryControllerTests {
         .andExpect(jsonPath("$[*].parentCategoryId",
             contains(null, subcategory.getParentCategoryId())));
   }
+
+  @Test
+  public void testGetCategoryByName() throws Exception {
+    when(categoryService.getOneByName(categoryDto.category)).thenReturn(category);
+
+    mockMvc.perform(post("/api/categories/find-by-name")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(categoryDto.category))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.name").value(category.getName()))
+        .andExpect(jsonPath("$.id").value(category.getId()))
+        .andExpect(jsonPath("$.parentCategoryId").value(category.getParentCategoryId()));
+  }
+
+  @Test
+  public void testGetCategoryByName_NotFound() throws Exception {
+    when(categoryService.getOneByName(categoryDto.category))
+        .thenThrow(new NotFoundException(String.format("Category %s not found", category.getName())));
+
+    mockMvc.perform(post("/api/categories/find-by-name")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(categoryDto.category))
+        .andExpect(status().isNotFound());
+  }
+
 }
