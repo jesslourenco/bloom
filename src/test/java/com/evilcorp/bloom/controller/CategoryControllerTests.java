@@ -152,4 +152,23 @@ public class CategoryControllerTests {
         .andExpect(status().isNotFound());
   }
 
+  @Test
+  public void testDeleteCategoryById() throws Exception {
+    doNothing().when(categoryService).deleteOneById(category.getId());
+
+    mockMvc.perform(post("/api/categories/delete/{id}", category.getId())
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk());
+  }
+
+  @Test
+  public void testDeleteCategoryById_NotFound() throws Exception {
+    doThrow(new NotFoundException(String.format("Category id %d not found", category.getId())))
+        .when(categoryService).deleteOneById(category.getId());
+
+    mockMvc.perform(post("/api/categories/delete/{id}", category.getId())
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isNotFound());
+  }
+
 }
