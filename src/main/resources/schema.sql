@@ -20,18 +20,3 @@ CREATE TABLE IF NOT EXISTS brands (
   id SERIAL PRIMARY KEY,
   name VARCHAR(50)
 );
-
-CREATE TABLE IF NOT EXISTS catalog (
-    id SERIAL PRIMARY KEY,
-    product_name VARCHAR(255) NOT NULL,
-    description TEXT NOT NULL,
-    category INTEGER REFERENCES category(id) ON DELETE SET NULL,
-    brand INTEGER REFERENCES brands(id) ON DELETE CASCADE,
-    img_url TEXT,
-    price NUMERIC,
-    cost NUMERIC,
-    stock_qty INTEGER
-);
-
-
-CREATE INDEX idx_product_name ON catalog(product_name);
