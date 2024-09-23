@@ -4,20 +4,17 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
 @Table("catalog")
-public class Product {
-  @Id
-  private String id;
+public record Product(
+    @Id String id,
 
-  private String name;
-  private String description;
-  private String category;
-  private String brand;
-  private String imgUrl;
-
-  private Double price;
-  private Double cost;
-  private Integer stockQty;
-
-  private String createdAt;
-  private String UpdatedAt;
+    String productName,
+    String description,
+    String category,
+    String brand,
+    String imgUrl,
+    Double price,
+    Double cost,
+    Integer stockQty,
+    String createdAt,
+    String updatedAt) {
 }
