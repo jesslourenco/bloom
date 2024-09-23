@@ -15,3 +15,20 @@ CREATE TABLE IF NOT EXISTS category (
 );
 
 CREATE INDEX idx_category_name ON category(name);
+
+CREATE TABLE IF NOT EXISTS catalog (
+    id SERIAL PRIMARY KEY,
+    product_name VARCHAR(255),
+    description TEXT,
+    category_id INTEGER REFERENCES category(id) ON DELETE SET NULL,
+    brand VARCHAR(50),
+    img_url TEXT,
+    price NUMERIC,
+    cost NUMERIC,
+    stock_qty INTEGER,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE INDEX idx_product_name on catalog(product_name);
+
