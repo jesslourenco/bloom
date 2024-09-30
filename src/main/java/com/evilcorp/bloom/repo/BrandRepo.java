@@ -7,4 +7,5 @@ import com.evilcorp.bloom.model.Brand;
 
 @Repository
 public interface BrandRepo extends CrudRepository<Brand, Integer> {
+  public boolean existsByName(String name);
 }
