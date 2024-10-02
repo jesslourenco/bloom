@@ -61,5 +61,4 @@ public class BrandDtoTests {
         .map(v -> v.getConstraintDescriptor().getAnnotation().annotationType().equals(NotBlank.class))
         .orElse(false));
   }
-
 }
