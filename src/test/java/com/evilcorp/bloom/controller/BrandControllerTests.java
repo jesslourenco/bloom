@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.evilcorp.bloom.dto.BrandDto;
 import com.evilcorp.bloom.exception.GlobalExceptionHandler;
+import com.evilcorp.bloom.exception.NotFoundException;
 import com.evilcorp.bloom.model.Brand;
 import com.evilcorp.bloom.service.BrandService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -79,4 +80,25 @@ public class BrandControllerTests {
         .andExpect(jsonPath("$.name").value("Brand name cannot be blank."));
   }
 
+  @Test
+  public void testDeleteBrand() throws Exception {
+    doNothing().when(brandService).delete(brand.getId());
+
+    mockMvc.perform(post("/api/brands/delete/{id}", brand.getId())
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(objectMapper.writeValueAsString(brandDto)))
+        .andExpect(status().isOk());
+  }
+
+  @Test
+  public void testDeleteBrand_NotFound() throws Exception {
+    doThrow(new NotFoundException(String.format("Brand with id %d does not exists", brand.getId())))
+        .when(brandService).delete(brand.getId());
+
+    mockMvc.perform(post("/api/brands/delete/{id}", brand.getId())
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isNotFound())
+        .andExpect(content().string(String.format("Brand with id %d does not exists", brand.getId())));
+
+  }
 }
