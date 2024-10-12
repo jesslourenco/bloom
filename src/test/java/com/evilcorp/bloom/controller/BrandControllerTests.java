@@ -6,6 +6,9 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -99,6 +102,20 @@ public class BrandControllerTests {
         .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isNotFound())
         .andExpect(content().string(String.format("Brand with id %d does not exists", brand.getId())));
+  }
 
+  @Test
+  public void testGetAll() throws Exception {
+    List<Brand> brands = new ArrayList<>();
+
+    brands.add(brand);
+
+    when(brandService.getAll()).thenReturn(brands);
+
+    mockMvc.perform(get("/api/brands")
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.size()").value(1))
+        .andExpect(jsonPath("$[*].name").value(brand.getName()));
   }
 }
