@@ -3,36 +3,34 @@ package com.evilcorp.bloom.dto;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
 public class ProductDto {
   @NotBlank
   @Size(max = 255)
-  private String productName;
+  public String productName;
 
   @NotBlank
   @Size(max = 4000)
-  private String description;
+  public String description;
 
-  @Positive
-  private Integer category;
+  @Min(0)
+  public Integer category;
 
   @NotNull
-  @NotBlank
-  private Integer brand;
+  public Integer brand;
 
   @Size(max = 2048)
-  private String imgUrl;
+  public String imgUrl;
 
   @NotNull
   @Min(0)
-  private Double price;
+  public Double price;
 
   @NotNull
   @Min(0)
-  private Double cost;
+  public Double cost;
 
   @Min(0)
-  private Integer stockQty;
+  public Integer stockQty;
 }
