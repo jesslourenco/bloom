@@ -5,11 +5,13 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
+import com.evilcorp.bloom.model.Brand;
 import com.evilcorp.bloom.model.Product;
 
 @ActiveProfiles("test")
@@ -18,8 +20,15 @@ public class ProductRepoTests {
   @Autowired
   private ProductRepo productRepo;
 
+  @Autowired
+  private BrandRepo brandRepo;
+
   @Test
   public void testFindByProductNameContaining() {
+    Brand brand = new Brand("Apple");
+    brand.setId(1);
+    brandRepo.save(brand);
+
     Product product = new Product("macbook air", "a cool laptop", null, 1, "", 3000.00, 1500.00, 0);
     productRepo.save(product);
 
