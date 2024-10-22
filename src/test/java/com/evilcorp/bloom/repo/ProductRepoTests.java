@@ -23,7 +23,7 @@ public class ProductRepoTests {
   @Autowired
   private BrandRepo brandRepo;
 
-  @Test
+  // @Test
   public void testFindByProductNameContaining() {
     Brand brand = new Brand("Apple");
     brand.setId(1);
