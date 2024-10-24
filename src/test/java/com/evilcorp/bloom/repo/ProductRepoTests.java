@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,16 +22,23 @@ public class ProductRepoTests {
   @Autowired
   private BrandRepo brandRepo;
 
-  // @Test
+  @Test
   public void testFindByProductNameContaining() {
-    Brand brand = new Brand("Apple");
 
-    Brand savedBrand = brandRepo.save(brand);
+    Brand brand = brandRepo.save(new Brand("Playstation"));
 
-    Product product = new Product("macbook air", "a cool laptop", null, savedBrand.getId(), "", 3000.00, 1500.00, 0);
+    Product product = new Product("joystick dualshock 2",
+        "console joystick",
+        null,
+        brand.getId(),
+        "",
+        3000.00,
+        1500.00,
+        0);
+
     productRepo.save(product);
 
-    List<Product> foundProducts = productRepo.findByProductNameContaining("air");
+    List<Product> foundProducts = productRepo.findByProductNameContaining("dualshock");
 
     assertEquals(1, foundProducts.size());
     assertThat(foundProducts.get(0).getProductName().equals(product.getProductName()));
