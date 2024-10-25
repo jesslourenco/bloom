@@ -1,6 +1,7 @@
 package com.evilcorp.bloom.model;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 @Table("catalog")
@@ -8,7 +9,9 @@ public class Product {
   @Id
   private String id;
 
-  private String productName;
+  @Column("product_name")
+  private String name;
+
   private String description;
   private Integer category;
   private Integer brand;
@@ -18,9 +21,9 @@ public class Product {
   private Double cost;
   private Integer stockQty;
 
-  public Product(String productName, String description, Integer category, Integer brand,
+  public Product(String name, String description, Integer category, Integer brand,
       String imgUrl, Double price, Double cost, Integer stockQty) {
-    this.productName = productName;
+    this.name = name;
     this.description = description;
     this.category = category;
     this.brand = brand;
@@ -38,12 +41,12 @@ public class Product {
     this.id = id;
   }
 
-  public String getProductName() {
-    return productName;
+  public String getName() {
+    return name;
   }
 
-  public void setProductName(String productName) {
-    this.productName = productName;
+  public void setName(String name) {
+    this.name = name;
   }
 
   public String getDescription() {

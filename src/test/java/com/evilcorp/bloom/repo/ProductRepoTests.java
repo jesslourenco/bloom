@@ -23,7 +23,7 @@ public class ProductRepoTests {
   private BrandRepo brandRepo;
 
   @Test
-  public void testFindByProductNameContaining() {
+  public void testFindByNameContaining() {
 
     Brand brand = brandRepo.save(new Brand("Playstation"));
 
@@ -38,10 +38,10 @@ public class ProductRepoTests {
 
     productRepo.save(product);
 
-    List<Product> foundProducts = productRepo.findByProductNameContaining("dualshock");
+    List<Product> foundProducts = productRepo.findByNameContaining("dualshock");
 
     assertEquals(1, foundProducts.size());
-    assertThat(foundProducts.get(0).getProductName().equals(product.getProductName()));
+    assertThat(foundProducts.get(0).getName().equals(product.getName()));
     assertThat(foundProducts.get(0).getDescription().equals(product.getDescription()));
     assertThat(foundProducts.get(0).getCategory() == null);
     assertThat(foundProducts.get(0).getBrand().equals(product.getBrand()));
@@ -52,8 +52,8 @@ public class ProductRepoTests {
   }
 
   @Test
-  public void testFindByProductNameContaining_NotFound() {
-    List<Product> foundProducts = productRepo.findByProductNameContaining("ipad");
+  public void testFindByNameContaining_NotFound() {
+    List<Product> foundProducts = productRepo.findByNameContaining("ipad");
 
     assertEquals(0, foundProducts.size());
   }

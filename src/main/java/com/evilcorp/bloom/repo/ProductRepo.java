@@ -7,5 +7,5 @@ import org.springframework.data.repository.CrudRepository;
 import com.evilcorp.bloom.model.Product;
 
 public interface ProductRepo extends CrudRepository<Product, Integer> {
-  List<Product> findByProductNameContaining(String keyword);
+  List<Product> findByNameContaining(String keyword);
 }
