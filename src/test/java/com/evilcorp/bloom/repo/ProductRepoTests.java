@@ -43,8 +43,8 @@ public class ProductRepoTests {
     assertEquals(1, foundProducts.size());
     assertThat(foundProducts.get(0).getName().equals(product.getName()));
     assertThat(foundProducts.get(0).getDescription().equals(product.getDescription()));
-    assertThat(foundProducts.get(0).getCategory() == null);
-    assertThat(foundProducts.get(0).getBrand().equals(product.getBrand()));
+    assertThat(foundProducts.get(0).getCategoryId() == null);
+    assertThat(foundProducts.get(0).getBrandId().equals(product.getBrandId()));
     assertThat(foundProducts.get(0).getImgUrl().isEmpty());
     assertThat(foundProducts.get(0).getPrice().equals(product.getPrice()));
     assertThat(foundProducts.get(0).getCost().equals(product.getCost()));

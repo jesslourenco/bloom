@@ -8,17 +8,17 @@ import jakarta.validation.constraints.Size;
 public class ProductDto {
   @NotBlank
   @Size(max = 255)
-  public String productName;
+  public String name;
 
   @NotBlank
   @Size(max = 4000)
   public String description;
 
   @Min(0)
-  public Integer category;
+  public Integer categoryId;
 
   @NotNull
-  public Integer brand;
+  public Integer brandId;
 
   @Size(max = 2048)
   public String imgUrl;

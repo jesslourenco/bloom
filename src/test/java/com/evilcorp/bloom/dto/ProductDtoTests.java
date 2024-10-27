@@ -31,9 +31,9 @@ public class ProductDtoTests {
   @BeforeEach
   public void init() {
     this.dto = new ProductDto();
-    this.dto.productName = "macbook air";
+    this.dto.name = "macbook air";
     this.dto.description = "a laptop for the casual user";
-    this.dto.brand = 1;
+    this.dto.brandId = 1;
     this.dto.price = 3000.67;
     this.dto.cost = 2000.00;
   }
@@ -47,7 +47,7 @@ public class ProductDtoTests {
 
   @Test
   public void testInvalidDto_LongName() {
-    dto.productName = generateRandomString(256);
+    dto.name = generateRandomString(256);
 
     Set<ConstraintViolation<ProductDto>> violations = validator.validate(dto);
 
@@ -61,7 +61,7 @@ public class ProductDtoTests {
   @Test
   public void testInvalidDto_BlankFields() {
     ProductDto blankDto = new ProductDto();
-    blankDto.brand = 1;
+    blankDto.brandId = 1;
     blankDto.price = 0.0;
     blankDto.cost = 0.0;
 
@@ -74,7 +74,7 @@ public class ProductDtoTests {
 
   @Test
   public void testInvalidDto_NullFields() {
-    dto.brand = null;
+    dto.brandId = null;
     dto.price = null;
     dto.cost = null;
 
@@ -115,7 +115,7 @@ public class ProductDtoTests {
   public void testInvalidDto_NegativeDecimals() {
     dto.price = -10.99;
     dto.cost = -5.00;
-    dto.category = -5;
+    dto.categoryId = -5;
     dto.stockQty = -1;
 
     Set<ConstraintViolation<ProductDto>> violations = validator.validate(dto);

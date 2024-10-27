@@ -13,20 +13,20 @@ public class Product {
   private String name;
 
   private String description;
-  private Integer category;
-  private Integer brand;
+  private Integer categoryId;
+  private Integer brandId;
   private String imgUrl;
 
   private Double price;
   private Double cost;
   private Integer stockQty;
 
-  public Product(String name, String description, Integer category, Integer brand,
+  public Product(String name, String description, Integer categoryId, Integer brandId,
       String imgUrl, Double price, Double cost, Integer stockQty) {
     this.name = name;
     this.description = description;
-    this.category = category;
-    this.brand = brand;
+    this.categoryId = categoryId;
+    this.brandId = brandId;
     this.imgUrl = imgUrl;
     this.price = price;
     this.cost = cost;
@@ -57,20 +57,20 @@ public class Product {
     this.description = description;
   }
 
-  public Integer getCategory() {
-    return category;
+  public Integer getCategoryId() {
+    return categoryId;
   }
 
-  public void setCategory(Integer category) {
-    this.category = category;
+  public void setCategoryId(Integer categoryId) {
+    this.categoryId = categoryId;
   }
 
-  public Integer getBrand() {
-    return brand;
+  public Integer getBrandId() {
+    return brandId;
   }
 
-  public void setBrand(Integer brand) {
-    this.brand = brand;
+  public void setBrandId(Integer brandId) {
+    this.brandId = brandId;
   }
 
   public String getImgUrl() {
