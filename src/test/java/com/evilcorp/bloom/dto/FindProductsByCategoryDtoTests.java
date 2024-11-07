@@ -49,7 +49,7 @@ public class FindProductsByCategoryDtoTests {
   }
 
   @Test
-  public void invalidDto_BlankFields() {
+  public void invalidDto_NullFields() {
     FindProductsByCategoryDto dto = new FindProductsByCategoryDto();
 
     Set<ConstraintViolation<FindProductsByCategoryDto>> violations = validator.validate(dto);

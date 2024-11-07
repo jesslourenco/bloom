@@ -31,6 +31,7 @@ public class ProductDto {
   @Min(0)
   private Double cost;
 
+  @NotNull
   @Min(0)
   private Integer stockQty;
 

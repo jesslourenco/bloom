@@ -8,13 +8,16 @@ public class PaginatedResult<T> {
   private int totalPages;
   private int currentPage;
   private int pageSize;
+  private Integer categoryId;
 
-  public PaginatedResult(List<T> data, long totalRecords, int totalPages, int currentPage, int pageSize) {
+  public PaginatedResult(List<T> data, long totalRecords, int totalPages, int currentPage, int pageSize,
+      Integer categoryId) {
     this.data = data;
     this.totalRecords = totalRecords;
     this.totalPages = totalPages;
     this.currentPage = currentPage;
     this.pageSize = pageSize;
+    this.categoryId = categoryId;
   }
 
   public List<T> getdata() {
@@ -55,5 +58,13 @@ public class PaginatedResult<T> {
 
   public void setPageSize(int pageSize) {
     this.pageSize = pageSize;
+  }
+
+  public Integer getCategoryId() {
+    return this.categoryId;
+  }
+
+  public void setCategoryId(Integer categoryId) {
+    this.categoryId = categoryId;
   }
 }

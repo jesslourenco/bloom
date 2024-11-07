@@ -77,7 +77,7 @@ public class ProductService {
     long totalRecords = productRepo.countByCategory(dto.categoryId);
     int totalPages = (int) Math.ceil((double) totalRecords / pageSize);
 
-    return new PaginatedResult<>(products, totalRecords, totalPages, dto.page, pageSize);
+    return new PaginatedResult<>(products, totalRecords, totalPages, dto.page, pageSize, dto.categoryId);
   }
 
   public Product findById(Integer id) {

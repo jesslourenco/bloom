@@ -36,6 +36,7 @@ public class ProductDtoTests {
     this.dto.setBrandId(1);
     this.dto.setPrice(3000.67);
     this.dto.setCost(2000.00);
+    this.dto.setStockQty(0);
   }
 
   @Test
@@ -64,6 +65,7 @@ public class ProductDtoTests {
     blankDto.setBrandId(1);
     blankDto.setPrice(0.0);
     blankDto.setCost(0.0);
+    blankDto.setStockQty(0);
 
     Set<ConstraintViolation<ProductDto>> violations = validator.validate(blankDto);
 
@@ -77,10 +79,11 @@ public class ProductDtoTests {
     dto.setBrandId(null);
     dto.setPrice(null);
     dto.setCost(null);
+    dto.setStockQty(null);
 
     Set<ConstraintViolation<ProductDto>> violations = validator.validate(dto);
 
-    assertEquals(3, violations.size());
+    assertEquals(4, violations.size());
     assertTrue(violations.stream()
         .allMatch(v -> v.getConstraintDescriptor().getAnnotation().annotationType().equals(NotNull.class)));
   }
