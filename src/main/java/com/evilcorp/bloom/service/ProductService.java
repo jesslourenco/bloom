@@ -20,7 +20,6 @@ public class ProductService {
   private final ProductMapper productMapper;
 
   private static final int pageSize = 10;
-  private static final String psqlFKConstraintCode = "constraint [23503]";
 
   public ProductService(ProductRepo productRepo, ProductMapper productMapper) {
     this.productRepo = productRepo;
@@ -44,7 +43,6 @@ public class ProductService {
 
     product.setId(id);
     productRepo.save(product);
-
   }
 
   public List<Product> searchByName(String keyword) {

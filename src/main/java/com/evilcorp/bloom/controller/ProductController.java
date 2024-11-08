@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -34,7 +35,7 @@ public class ProductController {
     productService.add(dto);
   }
 
-  @PostMapping("/{id}")
+  @PutMapping("/{id}")
   public void update(@RequestBody @Valid ProductDto dto, @PathVariable Integer id) {
     productService.update(dto, id);
   }
@@ -44,12 +45,12 @@ public class ProductController {
     productService.deleteById(id);
   }
 
-  @GetMapping("/{name}")
-  public List<Product> searchByName(@PathVariable String name) {
+  @PostMapping("/search")
+  public List<Product> searchByName(@RequestBody String name) {
     return productService.searchByName(name);
   }
 
-  @GetMapping("/category")
+  @GetMapping("/filter/category")
   public PaginatedResult<Product> findAllByCategoryId(@RequestBody @Valid ProductFilterDto dto) {
     return productService.findAllByCategoryId(dto);
   }
