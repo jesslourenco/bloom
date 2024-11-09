@@ -29,6 +29,7 @@ public class ProductService {
   public void add(ProductDto dto) {
     dto.setName(CapitalizeUtil.getCapitalizedString(dto.getName()));
     Product product = productMapper.toProduct(dto);
+
     try {
       productRepo.save(product);
 
