@@ -79,4 +79,44 @@ public class ProductServiceTests {
         .isInstanceOf(NotFoundException.class);
   }
 
+  @Test
+  public void testUpdate() {
+    Integer id = 3;
+    when(productRepo.existsById(id)).thenReturn(true);
+    when(productMapper.toProduct(dto)).thenReturn(product);
+
+    productService.update(dto, id);
+
+    verify(productRepo, times(1))
+        .save(argThat(p -> p.getName().equals(product.getName()) &&
+            p.getDescription().equals(product.getDescription()) &&
+            p.getCategoryId() == null &&
+            p.getBrandId().equals(product.getBrandId()) &&
+            p.getPrice().equals(product.getPrice()) &&
+            p.getCost().equals(product.getCost()) &&
+            p.getStockQty().equals(product.getStockQty())));
+  }
+
+  @Test
+  public void testUpdate_InvalidProductId() {
+    Integer id = 2;
+    when(productRepo.existsById(id)).thenReturn(false);
+
+    assertThatThrownBy(() -> productService.update(dto, id))
+        .isInstanceOf(NotFoundException.class);
+  }
+
+  @Test
+  public void testUpdate_InvalidBrandId() {
+    Integer id = 2;
+    when(productRepo.existsById(id)).thenReturn(true);
+
+    when(productMapper.toProduct(dto)).thenReturn(product);
+    when(productRepo.save(any(Product.class)))
+        .thenThrow(new DataIntegrityViolationException("constraint [23503]: foreign key issue"));
+
+    assertThatThrownBy(() -> productService.update(dto, id))
+        .isInstanceOf(NotFoundException.class);
+  }
+
 }
