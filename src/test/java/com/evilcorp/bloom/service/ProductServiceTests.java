@@ -1,6 +1,10 @@
 package com.evilcorp.bloom.service;
 
 import static org.mockito.Mockito.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -13,8 +17,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.dao.DataIntegrityViolationException;
 
 import com.evilcorp.bloom.dto.ProductDto;
+import com.evilcorp.bloom.dto.FindProductsByCategoryDto;
 import com.evilcorp.bloom.dto.ProductMapper;
 import com.evilcorp.bloom.model.Product;
+import com.evilcorp.bloom.model.Category;
 import com.evilcorp.bloom.repo.ProductRepo;
 import com.evilcorp.bloom.exception.NotFoundException;
 
@@ -117,6 +123,29 @@ public class ProductServiceTests {
 
     assertThatThrownBy(() -> productService.update(dto, id))
         .isInstanceOf(NotFoundException.class);
+  }
+
+  @Test
+  public void testFindAllByCategoryId() {
+    Category category = new Category("Electronics", null);
+    category.setId(1);
+
+    product.setCategoryId(1);
+
+    List<Product> products = new ArrayList<>();
+    products.add(product);
+
+    when(productRepo.findAllPaged(1, 10, 0)).thenReturn(products);
+    when(productRepo.countByCategory(1)).thenReturn((long) 1);
+
+    FindProductsByCategoryDto dto = new FindProductsByCategoryDto();
+    dto.page = 0;
+    dto.categoryId = 1;
+
+    productService.findAllByCategoryId(dto);
+
+    assertThat(products).hasSize(1);
+    assertThat(products).containsExactlyElementsOf(products);
   }
 
 }
