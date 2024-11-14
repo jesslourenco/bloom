@@ -6,7 +6,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import com.evilcorp.bloom.dto.FindProductsByCategoryDto;
+import com.evilcorp.bloom.dto.ProductFilterDto;
 import com.evilcorp.bloom.dto.ProductDto;
 import com.evilcorp.bloom.dto.ProductMapper;
 import com.evilcorp.bloom.exception.NotFoundException;
@@ -72,7 +72,7 @@ public class ProductService {
    * Returns a paginated result of all products of a certain category.
    * Result is ordered by product's id.
    */
-  public PaginatedResult<Product> findAllByCategoryId(FindProductsByCategoryDto dto) {
+  public PaginatedResult<Product> findAllByCategoryId(ProductFilterDto dto) {
     List<Product> products = productRepo.findAllPaged(dto.categoryId, pageSize, pageSize * dto.page);
 
     long totalRecords = productRepo.countByCategory(dto.categoryId);

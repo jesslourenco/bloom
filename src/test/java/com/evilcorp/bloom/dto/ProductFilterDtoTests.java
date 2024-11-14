@@ -14,8 +14,7 @@ import jakarta.validation.ValidatorFactory;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
-public class FindProductsByCategoryDtoTests {
-
+public class ProductFilterDtoTests {
   private static Validator validator;
 
   @BeforeAll
@@ -26,21 +25,21 @@ public class FindProductsByCategoryDtoTests {
 
   @Test
   public void validDto() {
-    FindProductsByCategoryDto dto = new FindProductsByCategoryDto();
+    ProductFilterDto dto = new ProductFilterDto();
     dto.page = 0;
     dto.categoryId = 1;
 
-    Set<ConstraintViolation<FindProductsByCategoryDto>> violations = validator.validate(dto);
+    Set<ConstraintViolation<ProductFilterDto>> violations = validator.validate(dto);
     assertTrue(violations.isEmpty());
   }
 
   @Test
   public void invalidDto_negativePage() {
-    FindProductsByCategoryDto dto = new FindProductsByCategoryDto();
+    ProductFilterDto dto = new ProductFilterDto();
     dto.page = -1;
     dto.categoryId = 1;
 
-    Set<ConstraintViolation<FindProductsByCategoryDto>> violations = validator.validate(dto);
+    Set<ConstraintViolation<ProductFilterDto>> violations = validator.validate(dto);
     assertEquals(1, violations.size());
     assertTrue(violations.stream()
         .findFirst()
@@ -50,9 +49,9 @@ public class FindProductsByCategoryDtoTests {
 
   @Test
   public void invalidDto_NullFields() {
-    FindProductsByCategoryDto dto = new FindProductsByCategoryDto();
+    ProductFilterDto dto = new ProductFilterDto();
 
-    Set<ConstraintViolation<FindProductsByCategoryDto>> violations = validator.validate(dto);
+    Set<ConstraintViolation<ProductFilterDto>> violations = validator.validate(dto);
     assertEquals(2, violations.size());
     assertTrue(violations.stream()
         .allMatch(v -> v.getConstraintDescriptor().getAnnotation().annotationType().equals(NotNull.class)));

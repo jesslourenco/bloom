@@ -20,7 +20,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 
 import com.evilcorp.bloom.dto.ProductDto;
-import com.evilcorp.bloom.dto.FindProductsByCategoryDto;
+import com.evilcorp.bloom.dto.ProductFilterDto;
 import com.evilcorp.bloom.dto.ProductMapper;
 import com.evilcorp.bloom.model.Product;
 import com.evilcorp.bloom.model.Category;
@@ -141,7 +141,7 @@ public class ProductServiceTests {
     when(productRepo.findAllPaged(1, 10, 0)).thenReturn(products);
     when(productRepo.countByCategory(1)).thenReturn((long) 1);
 
-    FindProductsByCategoryDto dto = new FindProductsByCategoryDto();
+    ProductFilterDto dto = new ProductFilterDto();
     dto.page = 0;
     dto.categoryId = 1;
 
