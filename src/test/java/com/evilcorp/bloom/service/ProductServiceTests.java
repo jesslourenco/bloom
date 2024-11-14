@@ -4,8 +4,10 @@ import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,6 +17,7 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 
 import com.evilcorp.bloom.dto.ProductDto;
 import com.evilcorp.bloom.dto.FindProductsByCategoryDto;
@@ -146,6 +149,45 @@ public class ProductServiceTests {
 
     assertThat(products).hasSize(1);
     assertThat(products).containsExactlyElementsOf(products);
+  }
+
+  @Test
+  public void testFindById() {
+    when(productRepo.findById(1)).thenReturn(Optional.of(product));
+
+    Product p = productService.findById(1);
+
+    assertTrue(
+        p.getName().equals(product.getName()) &&
+            p.getDescription().equals(product.getDescription()) &&
+            p.getCategoryId() == null &&
+            p.getBrandId().equals(product.getBrandId()) &&
+            p.getPrice().equals(product.getPrice()) &&
+            p.getCost().equals(product.getCost()) &&
+            p.getStockQty().equals(product.getStockQty()));
+  }
+
+  @Test
+  public void testFindById_NotFound() {
+    when(productRepo.findById(1)).thenThrow(new NotFoundException("not found"));
+
+    assertThatThrownBy(() -> productService.findById(1))
+        .isInstanceOf(NotFoundException.class);
+  }
+
+  @Test
+  public void testDeleteById() {
+    doNothing().when(productRepo).deleteById(1);
+
+    productService.deleteById(1);
+    verify(productRepo, times(1)).deleteById(1);
+  }
+
+  @Test
+  public void testDeleteById_NotFound() {
+    doThrow(new EmptyResultDataAccessException(1)).when(productRepo).deleteById(1);
+    assertThatThrownBy(() -> productService.deleteById(1))
+        .isInstanceOf(NotFoundException.class);
   }
 
 }
