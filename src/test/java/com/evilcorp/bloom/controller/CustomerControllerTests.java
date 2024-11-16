@@ -2,7 +2,6 @@ package com.evilcorp.bloom.controller;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -48,14 +47,10 @@ public class CustomerControllerTests {
     customer = new Customer("Jane", "Doe", "jane.doe@email.com", "1234567890");
     customer.setId(UUID.fromString("550e8400-e29b-41d4-a716-446655440000"));
 
-    customerDto = new CustomerDto();
-    customerDto.name = "Jane Doe";
-    customerDto.emailAddress = "jane.doe@email.com";
-    customerDto.phoneNumber = "123-456-7890";
+    customerDto = new CustomerDto("Jane Doe", "jane.doe@email.com", "123-456-7890");
 
     id = "550e8400-e29b-41d4-a716-446655440000";
     email = "jane.doe@email.com";
-
   }
 
   @Test
@@ -127,7 +122,7 @@ public class CustomerControllerTests {
 
   @Test
   public void testCreateCustomer_DtoBadFormattedField() throws Exception {
-    customerDto.emailAddress = "jane.doe@";
+    customerDto.setEmailAddress("jane.doe@");
 
     mockMvc.perform(post("/api/customers")
         .contentType(MediaType.APPLICATION_JSON)

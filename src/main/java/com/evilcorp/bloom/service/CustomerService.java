@@ -16,17 +16,17 @@ public class CustomerService {
   }
 
   public void add(CustomerDto dto) {
-    if (customerRepo.existsByEmail(dto.emailAddress)) {
+    if (customerRepo.existsByEmail(dto.getEmailAddress())) {
       throw new DataIntegrityViolationException("email already registered");
     }
 
-    String[] nameParts = dto.name.trim().split("\\s+", 2);
+    String[] nameParts = dto.getName().trim().split("\\s+", 2);
     String firstName = nameParts[0];
     String lastName = nameParts[1];
 
-    String phone = dto.phoneNumber.replaceAll("[^0-9]", "");
+    String phone = dto.getPhoneNumber().replaceAll("[^0-9]", "");
 
-    Customer customer = new Customer(firstName, lastName, dto.emailAddress, phone);
+    Customer customer = new Customer(firstName, lastName, dto.getEmailAddress(), phone);
 
     customerRepo.save(customer);
   }
