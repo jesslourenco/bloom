@@ -89,7 +89,6 @@ public class ProductService {
   public void deleteById(Integer id) {
     try {
       productRepo.deleteById(id);
-
     } catch (EmptyResultDataAccessException e) {
       throw new NotFoundException(String.format("Product with id %d not found.", id));
     }
