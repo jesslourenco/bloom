@@ -20,7 +20,7 @@ public class ProductService {
   private final ProductMapper productMapper;
 
   private static final int pageSize = 10;
-  private static final int psqlFKConstraintCode = 23503;
+  private static final String psqlFKConstraintCode = "constraint [23503]";
 
   public ProductService(ProductRepo productRepo, ProductMapper productMapper) {
     this.productRepo = productRepo;
@@ -35,7 +35,7 @@ public class ProductService {
       productRepo.save(product);
 
     } catch (DataIntegrityViolationException e) {
-      if (e.getMessage() != null && e.getMessage().contains(String.format("constraint [%d]", psqlFKConstraintCode))) {
+      if (e.getMessage() != null && e.getMessage().contains(psqlFKConstraintCode)) {
         throw new NotFoundException(String.format("Foreign key violation: %s", e.getMessage()));
       } else {
         throw e;
@@ -56,7 +56,7 @@ public class ProductService {
     try {
       productRepo.save(product);
     } catch (DataIntegrityViolationException e) {
-      if (e.getMessage() != null && e.getMessage().contains(String.format("constraint [%d]", psqlFKConstraintCode))) {
+      if (e.getMessage() != null && e.getMessage().contains(psqlFKConstraintCode)) {
         throw new NotFoundException(String.format("Foreign key violation: %s", e.getMessage()));
       } else {
         throw e;
