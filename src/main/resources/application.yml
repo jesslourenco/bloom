@@ -16,5 +16,5 @@ spring:
       mode: always # runs a sql script if available
       platform: postgres
 
-  server:
-    port: ${SERVER_PORT}
+server:
+  port: ${SERVER_PORT}
