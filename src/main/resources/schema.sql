@@ -14,4 +14,9 @@ CREATE TABLE IF NOT EXISTS category (
   parent_category_id INTEGER REFERENCES category(id) ON DELETE SET NULL
 );
 
-CREATE INDEX idx_category_name ON category(name);
+CREATE INDEX IF NOT EXISTS idx_category_name ON category(name);
+
+CREATE TABLE IF NOT EXISTS brands (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(50) NOT NULL UNIQUE
+);
