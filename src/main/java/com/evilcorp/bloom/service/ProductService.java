@@ -2,7 +2,6 @@ package com.evilcorp.bloom.service;
 
 import java.util.List;
 
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +19,6 @@ public class ProductService {
   private final ProductMapper productMapper;
 
   private static final int pageSize = 10;
-  private static final String psqlFKConstraintCode = "constraint [23503]";
 
   public ProductService(ProductRepo productRepo, ProductMapper productMapper) {
     this.productRepo = productRepo;
@@ -31,16 +29,7 @@ public class ProductService {
     dto.setName(CapitalizeUtil.getCapitalizedString(dto.getName()));
     Product product = productMapper.toProduct(dto);
 
-    try {
-      productRepo.save(product);
-
-    } catch (DataIntegrityViolationException e) {
-      if (e.getMessage() != null && e.getMessage().contains(psqlFKConstraintCode)) {
-        throw new NotFoundException(String.format("Foreign key violation: %s", e.getMessage()));
-      } else {
-        throw e;
-      }
-    }
+    productRepo.save(product);
   }
 
   public void update(ProductDto dto, Integer id) {
@@ -52,16 +41,7 @@ public class ProductService {
     Product product = productMapper.toProduct(dto);
 
     product.setId(id);
-
-    try {
-      productRepo.save(product);
-    } catch (DataIntegrityViolationException e) {
-      if (e.getMessage() != null && e.getMessage().contains(psqlFKConstraintCode)) {
-        throw new NotFoundException(String.format("Foreign key violation: %s", e.getMessage()));
-      } else {
-        throw e;
-      }
-    }
+    productRepo.save(product);
   }
 
   public List<Product> searchByName(String keyword) {

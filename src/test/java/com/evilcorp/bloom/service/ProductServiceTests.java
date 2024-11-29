@@ -85,7 +85,7 @@ public class ProductServiceTests {
         .thenThrow(new DataIntegrityViolationException("constraint [23503]: foreign key issue"));
 
     assertThatThrownBy(() -> productService.add(dto))
-        .isInstanceOf(NotFoundException.class);
+        .isInstanceOf(DataIntegrityViolationException.class);
   }
 
   @Test
@@ -125,7 +125,7 @@ public class ProductServiceTests {
         .thenThrow(new DataIntegrityViolationException("constraint [23503]: foreign key issue"));
 
     assertThatThrownBy(() -> productService.update(dto, id))
-        .isInstanceOf(NotFoundException.class);
+        .isInstanceOf(DataIntegrityViolationException.class);
   }
 
   @Test

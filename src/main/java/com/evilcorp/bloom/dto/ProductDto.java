@@ -6,32 +6,33 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public class ProductDto {
-  @NotBlank
-  @Size(max = 255)
+  @NotBlank(message = "Product name cannot be blank")
+  @Size(max = 255, message = "Name is too long")
   private String name;
 
-  @NotBlank
-  @Size(max = 4000)
+  @NotBlank(message = "Product description cannot be blank")
+  @Size(max = 4000, message = "Description is too long")
   private String description;
 
   @Min(0)
   private Integer categoryId;
 
-  @NotNull
+  @NotNull(message = "Brand id cannot be null")
   private Integer brandId;
 
-  @Size(max = 2048)
+  @Size(max = 2048, message = "ImgUrl is too long")
   private String imgUrl;
 
-  @NotNull
+  @NotNull(message = "Price cannot be null")
+
   @Min(0)
   private Double price;
 
-  @NotNull
+  @NotNull(message = "Cost cannot be null")
   @Min(0)
   private Double cost;
 
-  @NotNull
+  @NotNull(message = "stockQty cannot be null")
   @Min(0)
   private Integer stockQty;
 

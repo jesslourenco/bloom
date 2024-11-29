@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+  private static final String psqlFKConstraintCode = "constraint [23503]";
 
   @ExceptionHandler(MethodArgumentNotValidException.class)
   public ResponseEntity<Map<String, String>> handleDtoValidationException(MethodArgumentNotValidException e) {
@@ -36,6 +37,9 @@ public class GlobalExceptionHandler {
 
   @ExceptionHandler(DataIntegrityViolationException.class)
   public ResponseEntity<String> handleDataIntegrityException(DataIntegrityViolationException e) {
+    if (e.getMessage() != null && e.getMessage().contains(psqlFKConstraintCode)) {
+      return new ResponseEntity<>(String.format("Foreign key not found: %s", e.getMessage()), HttpStatus.NOT_FOUND);
+    }
     return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
   }
 
