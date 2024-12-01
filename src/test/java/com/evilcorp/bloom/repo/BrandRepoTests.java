@@ -1,0 +1,40 @@
+package com.evilcorp.bloom.repo;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.context.ActiveProfiles;
+
+import com.evilcorp.bloom.model.Brand;
+
+@ActiveProfiles("test")
+@SpringBootTest
+public class BrandRepoTests {
+  @Autowired
+  private BrandRepo brandRepo;
+
+  @AfterAll
+  static void cleanUp(@Autowired JdbcTemplate jdbcTemplate) {
+    jdbcTemplate.execute("TRUNCATE TABLE brands RESTART IDENTITY CASCADE");
+  }
+
+  @Test
+  public void testExistsByName() {
+    Brand brand = new Brand("Apple");
+    brandRepo.save(brand);
+
+    assertTrue(brandRepo.existsByName(brand.getName()));
+  }
+
+  @Test
+  public void testExistsByName_NotFound() {
+    String name = "Apple";
+
+    assertFalse(brandRepo.existsByName(name));
+  }
+}

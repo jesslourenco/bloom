@@ -18,3 +18,22 @@ spring:
 
 server:
   port: ${SERVER_PORT}
+
+---
+server:
+  port: ${TEST_SERVER_PORT}
+
+spring:
+  config:
+    activate:
+      on-profile: test
+
+  datasource:
+    url: jdbc:tc:postgresql:15:${DB_TESTNAME}
+    username: ${DB_TESTUSER}
+    password: ${DB_TESTPASSWORD}
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+
+  sql:
+    init:
+      mode: always
