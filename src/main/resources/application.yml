@@ -1,0 +1,35 @@
+spring:
+  config:
+    import: "optional:file:./.env[.properties]"
+  datasource:
+    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  mvc:
+    trailing-slash-match: true
+
+  sql:
+    init:
+      mode: always # runs a sql script if available
+      platform: postgres
+
+server:
+  port: ${SERVER_PORT}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health # check on endpoint /actuator/health
+
+  health:
+    db:
+      enabled: true
+    defaults:
+      enabled: true
+
+springdoc:
+  swagger-ui:
+    url: /swagger/swagger.yml
+    disable-swagger-default-url: true
