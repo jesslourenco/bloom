@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
+
   @ExceptionHandler(MethodArgumentNotValidException.class)
   public ResponseEntity<Map<String, String>> handleDtoValidationException(MethodArgumentNotValidException e) {
     Map<String, String> errors = new HashMap<>();

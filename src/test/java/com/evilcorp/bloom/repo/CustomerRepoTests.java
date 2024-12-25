@@ -1,6 +1,6 @@
 package com.evilcorp.bloom.repo;
 
-import org.assertj.core.api.Assertions;
+import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,18 +18,25 @@ public class CustomerRepoTests {
   private CustomerRepo customerRepo;
 
   @Test
-  public void FindCustomerByEmailSuccess() {
+  public void testFindCustomerByEmail() {
     Customer customer = new Customer("elliot", "alderson", "ea@evilcorp.com", "123-456-7890");
     customerRepo.save(customer);
 
     Optional<Customer> foundCustomer = customerRepo.findByEmail(customer.getEmail());
 
-    Assertions.assertThat(foundCustomer).isPresent();
+    assertThat(foundCustomer).isPresent();
     foundCustomer.ifPresent(c -> {
-      Assertions.assertThat(c.getFirstName()).isEqualTo(customer.getFirstName());
-      Assertions.assertThat(c.getLastName()).isEqualTo(customer.getLastName());
-      Assertions.assertThat(c.getEmail()).isEqualTo(customer.getEmail());
-      Assertions.assertThat(c.getPhone()).isEqualTo(customer.getPhone());
+      assertThat(c.getFirstName()).isEqualTo(customer.getFirstName());
+      assertThat(c.getLastName()).isEqualTo(customer.getLastName());
+      assertThat(c.getEmail()).isEqualTo(customer.getEmail());
+      assertThat(c.getPhone()).isEqualTo(customer.getPhone());
     });
+  }
+
+  @Test
+  public void testFindCustomerByEmail_Failure() {
+
+    Optional<Customer> foundCustomer = customerRepo.findByEmail("dne@email.com");
+    assertThat(foundCustomer.isEmpty());
   }
 }

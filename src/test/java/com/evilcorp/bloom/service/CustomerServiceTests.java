@@ -30,8 +30,8 @@ public class CustomerServiceTests {
   @Test
   public void testGetAllCustomers() {
     Iterable<Customer> mockCustomers = Arrays.asList(
-        new Customer("Jane", "Doe", "jane.doe@email.com", "123-456-7890"),
-        new Customer("John", "Doe", "john.doe@email.com", "123-456-7890"));
+        new Customer("Jane", "Doe", "jane.doe@email.com", "1234567890"),
+        new Customer("John", "Doe", "john.doe@email.com", "1234567890"));
 
     when(customerRepo.findAll()).thenReturn(mockCustomers);
     Iterable<Customer> customers = customerService.getAll();
@@ -43,7 +43,7 @@ public class CustomerServiceTests {
 
   @Test
   public void testGetOneById() {
-    Customer mockCustomer = new Customer("Jane", "Doe", "jane.doe@email.com", "123-456-7890");
+    Customer mockCustomer = new Customer("Jane", "Doe", "jane.doe@email.com", "1234567890");
     UUID id = UUID.randomUUID();
     mockCustomer.setId(id);
 
@@ -94,8 +94,8 @@ public class CustomerServiceTests {
   @Test
   public void testDeleteById() {
     List<Customer> mockCustomers = new ArrayList<>(Arrays.asList(
-        new Customer("Jane", "Doe", "jane.doe@email.com", "123-456-7890"),
-        new Customer("John", "Doe", "john.doe@email.com", "123-456-7890")));
+        new Customer("Jane", "Doe", "jane.doe@email.com", "1234567890"),
+        new Customer("John", "Doe", "john.doe@email.com", "1234567890")));
 
     mockCustomers.get(0).setId(UUID.randomUUID());
     UUID id = UUID.randomUUID();
@@ -130,4 +130,7 @@ public class CustomerServiceTests {
     verify(customerRepo, times(1)).existsById(id.toString());
     verify(customerRepo, times(0)).deleteById(id.toString());
   }
+
+  // test for add()
+  // error - duplicate email
 }
