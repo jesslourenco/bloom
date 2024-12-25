@@ -13,10 +13,14 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import com.evilcorp.bloom.model.Customer;
 import com.evilcorp.bloom.repo.CustomerRepo;
+
+import com.evilcorp.bloom.dto.CustomerDto;
 
 @ExtendWith(MockitoExtension.class)
 public class CustomerServiceTests {
@@ -131,6 +135,66 @@ public class CustomerServiceTests {
     verify(customerRepo, times(0)).deleteById(id.toString());
   }
 
-  // test for add()
-  // error - duplicate email
+  @Test
+  public void testAdd() {
+    CustomerDto dto = new CustomerDto();
+    dto.name = "Jane Doe";
+    dto.emailAddress = "jane.doe@email.com";
+    dto.phoneNumber = "123-456-7890";
+
+    Customer mockCustomer = new Customer("Jane", "Doe", dto.emailAddress, "1234567890");
+    mockCustomer.setId(UUID.randomUUID());
+
+    when(customerRepo.existsByEmail(dto.emailAddress)).thenReturn(false);
+    customerService.add(dto);
+
+    verify(customerRepo, times(1)).existsByEmail(dto.emailAddress);
+
+    verify(customerRepo, times(1))
+        .save(Mockito.argThat(customer -> customer.getFirstName().equals(mockCustomer.getFirstName()) &&
+            customer.getLastName().equals(mockCustomer.getLastName()) &&
+            customer.getEmail().equals(mockCustomer.getEmail()) &&
+            customer.getPhone().equals(mockCustomer.getPhone())));
+  }
+
+  @Test
+  public void testAdd_LongName() {
+    CustomerDto dto = new CustomerDto();
+    dto.name = "Jane Doe of Somewhere Jr";
+    dto.emailAddress = "jane.doe@email.com";
+    dto.phoneNumber = "123-456-7890";
+
+    Customer mockCustomer = new Customer("Jane", "Doe of Somewhere Jr", dto.emailAddress, "1234567890");
+    mockCustomer.setId(UUID.randomUUID());
+
+    when(customerRepo.existsByEmail(dto.emailAddress)).thenReturn(false);
+    customerService.add(dto);
+
+    verify(customerRepo, times(1)).existsByEmail(dto.emailAddress);
+
+    verify(customerRepo, times(1))
+        .save(Mockito.argThat(customer -> customer.getFirstName().equals(mockCustomer.getFirstName()) &&
+            customer.getLastName().equals(mockCustomer.getLastName()) &&
+            customer.getEmail().equals(mockCustomer.getEmail()) &&
+            customer.getPhone().equals(mockCustomer.getPhone())));
+  }
+
+  @Test
+  public void testAdd_DuplicateEmail() {
+    CustomerDto dto = new CustomerDto();
+    dto.name = "Jane Doe";
+    dto.emailAddress = "jane.doe@email.com";
+    dto.phoneNumber = "123-456-7890";
+
+    Customer mockCustomer = new Customer("Jane", "Doe", dto.emailAddress, "1234567890");
+    mockCustomer.setId(UUID.randomUUID());
+
+    when(customerRepo.existsByEmail(dto.emailAddress)).thenReturn(true);
+
+    assertThatThrownBy(() -> customerService.add(dto))
+        .isInstanceOf(DataIntegrityViolationException.class);
+
+    verify(customerRepo, times(1)).existsByEmail(dto.emailAddress);
+    verify(customerRepo, times(0)).save(mockCustomer);
+  }
 }
