@@ -1,6 +1,7 @@
 package com.evilcorp.bloom.controller;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,8 +42,9 @@ public class CustomerController {
   }
 
   @PostMapping
-  @ResponseStatus(HttpStatus.CREATED)
-  public void createCustomer(@RequestBody @Valid CustomerDto dto) {
+  // @ResponseStatus(HttpStatus.CREATED)
+  public ResponseEntity<Void> createCustomer(@RequestBody @Valid CustomerDto dto) {
     customerService.add(dto);
+    return ResponseEntity.status(HttpStatus.CREATED).build();
   }
 }

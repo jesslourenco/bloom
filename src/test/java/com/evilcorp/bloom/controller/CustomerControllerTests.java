@@ -8,10 +8,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.evilcorp.bloom.dto.CustomerDto;
+import com.evilcorp.bloom.exception.GlobalExceptionHandler;
 import com.evilcorp.bloom.model.Customer;
 import com.evilcorp.bloom.service.CustomerService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,6 +25,7 @@ import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.*;
 
 @WebMvcTest(CustomerController.class)
+@Import(GlobalExceptionHandler.class)
 public class CustomerControllerTests {
   @Autowired
   private MockMvc mockMvc;
@@ -105,9 +109,48 @@ public class CustomerControllerTests {
         .andExpect(status().isCreated());
   }
 
-  // Scenario: some error in dto (missing field(s), invalid fields)
-  // Scenario: duplicate email
-  // Scenario: empty json payload
+  @Test
+  public void testCreateCustomer_DtoNullFields() throws Exception {
+    CustomerDto badDto = new CustomerDto();
+
+    mockMvc.perform(post("/api/customers")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(objectMapper.writeValueAsString(badDto)))
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.name").value("Name cannot be blank"))
+        .andExpect(jsonPath("$.emailAddress").value("Email cannot be blank"));
+  }
+
+  @Test
+  public void testCreateCustomer_DtoBadFormattedField() throws Exception {
+    customerDto.emailAddress = "jane.doe@";
+
+    mockMvc.perform(post("/api/customers")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(objectMapper.writeValueAsString(customerDto)))
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.emailAddress").value("Email must be a valid address"));
+  }
+
+  @Test
+  public void testCreateCustomer_DuplicateEmail() throws Exception {
+    doThrow(new DataIntegrityViolationException("email already registered"))
+        .when(customerService).add(any());
+
+    mockMvc.perform(post("/api/customers")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(objectMapper.writeValueAsString(customerDto)))
+        .andExpect(status().isConflict())
+        .andExpect(content().string("email already registered"));
+  }
+
+  @Test
+  public void testCreateCustomer_EmptyPayload() throws Exception {
+    mockMvc.perform(post("/api/customers")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(""))
+        .andExpect(status().isBadRequest());
+  }
 
   @Test
   public void testGetCustomerByEmail() throws Exception {
