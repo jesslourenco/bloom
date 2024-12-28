@@ -29,7 +29,7 @@ jobs:
             ${{ runner.os }}-maven-
 
       - name: Run Maven build
-        run: mvn mvn -B package --file pom.xml --no-transfer-progress -DskipTests
+        run: mvn -B package --file pom.xml --no-transfer-progress -DskipTests
 
       - name: Run Tests
         env:
