@@ -1,0 +1,113 @@
+openapi: 3.0.0
+info:
+  title: Customer API
+  version: 1.0.0
+  description: API to manage customers
+servers:
+  - url: /api
+    description: Customer API base path
+paths:
+  /customers:
+    get:
+      summary: Retrieve all customers
+      operationId: getAllCustomers
+      responses:
+        "200":
+          description: A list of all customers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Customer"
+    post:
+      summary: Create a new customer
+      operationId: createCustomer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CustomerDto"
+      responses:
+        "201":
+          description: Customer created successfully
+        "400":
+          description: Invalid input
+  /customers/{id}:
+    get:
+      summary: Retrieve a customer by ID
+      operationId: getCustomerById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the customer to retrieve
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Customer details retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Customer"
+        "404":
+          description: Customer not found
+  /customers/find-email:
+    post:
+      summary: Retrieve a customer by email
+      operationId: getCustomerByEmail
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: string
+              example: "example@email.com"
+      responses:
+        "200":
+          description: Customer details retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Customer"
+        "404":
+          description: Customer not found
+components:
+  schemas:
+    Customer:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        firstName:
+          type: string
+          example: "Jane"
+        lastName:
+          type: string
+          example: "Doe"
+        email:
+          type: string
+          format: email
+          example: "jane.doe@example.com"
+        phone:
+          type: string
+          example: "(123) 456-7890"
+    CustomerDto:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "Jane Doe"
+        emailAddress:
+          type: string
+          format: email
+          example: "jane.doe@example.com"
+        phoneNumber:
+          type: string
+          pattern: "^(?:\\(?\\d{3}\\)?[-.\\s]?\\d{3}[-.\\s]?\\d{4})$"
+          example: "(123) 456-7890"
