@@ -23,7 +23,7 @@ jobs:
       - name: Run Maven build
         env:
           SPRING_PROFILES_ACTIVE: test
-        run: mvn clean install --no-transfer-progress
+        run: mvn clean install -X --no-transfer-progress
 
       - name: Run Tests
         env:

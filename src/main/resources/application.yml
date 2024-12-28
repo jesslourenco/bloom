@@ -35,6 +35,8 @@ springdoc:
     disable-swagger-default-url: true
 
 ---
+server:
+  port: 8080
 spring:
   config:
     activate:
