@@ -35,6 +35,8 @@ springdoc:
     disable-swagger-default-url: true
 
 ---
+server:
+  port: ${TEST_SERVER_PORT}
 spring:
   config:
     activate:
