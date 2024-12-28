@@ -21,11 +21,12 @@ jobs:
           cache: "maven"
 
       - name: Run Maven build
-        env:
-          SPRING_PROFILES_ACTIVE: test
-        run: mvn clean install -X --no-transfer-progress
+        run: mvn clean install -X --no-transfer-progress -DskipTests
 
       - name: Run Tests
         env:
           SPRING_PROFILES_ACTIVE: test
+          DB_TESTNAME: ${{ secrets.DB_TESTNAME }}
+          B_TESTUSER: ${{ secrets.DB_TESTUSER }}
+          DB_TESTPASSWORD: ${{ secrets.DB_TESTPASSWORD }}
         run: mvn test --no-transfer-progress
