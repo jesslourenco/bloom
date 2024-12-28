@@ -36,7 +36,7 @@ springdoc:
 
 ---
 server:
-  port: 8080
+  port: ${TEST_SERVER_PORT}
 spring:
   config:
     activate:

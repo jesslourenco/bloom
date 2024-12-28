@@ -29,4 +29,5 @@ jobs:
           DB_TESTNAME: ${{ secrets.DB_TESTNAME }}
           B_TESTUSER: ${{ secrets.DB_TESTUSER }}
           DB_TESTPASSWORD: ${{ secrets.DB_TESTPASSWORD }}
+          TEST_SERVER_PORT: ${{ secrets.TEST_SERVER_PORT }}
         run: mvn test --no-transfer-progress
