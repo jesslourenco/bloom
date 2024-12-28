@@ -17,7 +17,7 @@ public class CustomerRepoTests {
   @Autowired
   private CustomerRepo customerRepo;
 
-  // @Test
+  @Test
   public void testFindCustomerByEmail() {
     Customer customer = new Customer("elliot", "alderson", "ea@evilcorp.com", "123-456-7890");
     customerRepo.save(customer);
@@ -33,7 +33,7 @@ public class CustomerRepoTests {
     });
   }
 
-  // @Test
+  @Test
   public void testFindCustomerByEmail_Failure() {
 
     Optional<Customer> foundCustomer = customerRepo.findByEmail("dne@email.com");
