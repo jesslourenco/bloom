@@ -1,5 +1,7 @@
 package com.evilcorp.bloom.controller;
 
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.UUID;
 
@@ -83,9 +85,11 @@ public class CustomerControllerTests {
 
   @Test
   public void tstGetAllCustomers() throws Exception {
-    Iterable<Customer> customers = Arrays.asList(
-        new Customer("Jane", "Doe", "jane.doe@email.com", "1234567890"),
-        new Customer("John", "Doe", "john.doe@email.com", "1234567890"));
+    Customer customerB = new Customer("John", "Doe", "john.doe@email.com", "1234567890");
+
+    List<Customer> customers = new ArrayList<>();
+    customers.add(customerB);
+    customers.add(customer);
 
     when(customerService.getAll()).thenReturn(customers);
 
@@ -93,10 +97,10 @@ public class CustomerControllerTests {
         .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.size()").value(2))
-        .andExpect(jsonPath("$[*].firstName", containsInAnyOrder("Jane", "John")))
-        .andExpect(jsonPath("$[*].lastName", containsInAnyOrder("Doe", "Doe")))
-        .andExpect(jsonPath("$[*].email", containsInAnyOrder("jane.doe@email.com", "john.doe@email.com")))
-        .andExpect(jsonPath("$[*].phone", everyItem(equalTo("1234567890"))));
+        .andExpect(jsonPath("$[*].firstName", containsInAnyOrder(customer.getFirstName(), customerB.getFirstName())))
+        .andExpect(jsonPath("$[*].lastName", everyItem(equalTo(customer.getLastName()))))
+        .andExpect(jsonPath("$[*].email", containsInAnyOrder(customerB.getEmail(), customer.getEmail())))
+        .andExpect(jsonPath("$[*].phone", everyItem(equalTo(customer.getPhone()))));
   }
 
   @Test
