@@ -9,7 +9,9 @@ CREATE TABLE IF NOT EXISTS customers (
 );
 
 CREATE TABLE IF NOT EXISTS category (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  id SERIAL PRIMARY KEY,
   name VARCHAR(255) NOT NULL UNIQUE,
-  parent_category_id UUID REFERENCES category(id) ON DELETE SET NULL
+  parent_category_id INTEGER REFERENCES category(id) ON DELETE SET NULL
 );
+
+CREATE INDEX idx_category_name ON category(name);

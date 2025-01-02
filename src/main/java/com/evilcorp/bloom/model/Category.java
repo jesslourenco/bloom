@@ -1,18 +1,16 @@
 package com.evilcorp.bloom.model;
 
-import java.util.UUID;
-
 import org.springframework.data.annotation.Id;
 
 public class Category {
 
   @Id
-  private UUID id;
+  private Integer id;
 
   private String name;
-  private UUID parent_category_id;
+  private Integer parent_category_id;
 
-  public Category(String name, UUID parent_category_id) {
+  public Category(String name, Integer parent_category_id) {
     this.name = name;
     this.parent_category_id = parent_category_id;
   }
@@ -21,11 +19,11 @@ public class Category {
     return this.name;
   }
 
-  public UUID getId() {
+  public Integer getId() {
     return this.id;
   }
 
-  public UUID getParentCategoryId() {
+  public Integer getParentCategoryId() {
     return this.parent_category_id;
   }
 
@@ -33,7 +31,11 @@ public class Category {
     this.name = name;
   }
 
-  public void setParentCategoryId(UUID parent_category_id) {
+  public void setParentCategoryId(Integer parent_category_id) {
     this.parent_category_id = parent_category_id;
+  }
+
+  public void setId(Integer id) {
+    this.id = id;
   }
 }

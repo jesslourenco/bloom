@@ -12,6 +12,7 @@ import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 public class CategoryDtoTests {
 
@@ -26,8 +27,8 @@ public class CategoryDtoTests {
   @Test
   public void testValidDTO() {
     CategoryDto dto = new CategoryDto();
-    dto.category = "Eletronics";
-    dto.parentCategory = "";
+    dto.category = "Electronics";
+    dto.parentCategory = null;
 
     Set<ConstraintViolation<CategoryDto>> violations = validator.validate(dto);
     assertTrue(violations.isEmpty());
@@ -43,6 +44,20 @@ public class CategoryDtoTests {
     assertTrue(violations.stream()
         .findFirst()
         .map(v -> v.getConstraintDescriptor().getAnnotation().annotationType().equals(NotBlank.class))
+        .orElse(false));
+  }
+
+  @Test
+  public void testInvalidDTO_LongName() {
+    CategoryDto dto = new CategoryDto();
+    dto.category = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam quis commodo est. Suspendisse fermentum orci eu ligula tempor dapibus. Integer tristique tortor a feugiat malesuada. Pellentesque sit amet leo eget urna aliquet varius. Aenean pharetra mi sed.";
+
+    Set<ConstraintViolation<CategoryDto>> violations = validator.validate(dto);
+
+    assertEquals(1, violations.size());
+    assertTrue(violations.stream()
+        .findFirst()
+        .map(v -> v.getConstraintDescriptor().getAnnotation().annotationType().equals(Size.class))
         .orElse(false));
   }
 }
