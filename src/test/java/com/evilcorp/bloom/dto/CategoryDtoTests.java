@@ -7,6 +7,8 @@ import java.util.Set;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import com.evilcorp.bloom.util.RandUtil;
+
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
@@ -50,8 +52,9 @@ public class CategoryDtoTests {
   @Test
   public void testInvalidDTO_LongName() {
     CategoryDto dto = new CategoryDto();
-    dto.category = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam quis commodo est. Suspendisse fermentum orci eu ligula tempor dapibus. Integer tristique tortor a feugiat malesuada. Pellentesque sit amet leo eget urna aliquet varius. Aenean pharetra mi sed.";
 
+    RandUtil rand = new RandUtil();
+    dto.category = rand.generateRandomString(256);
     Set<ConstraintViolation<CategoryDto>> violations = validator.validate(dto);
 
     assertEquals(1, violations.size());
