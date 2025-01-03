@@ -52,9 +52,7 @@ public class CategoryDtoTests {
   @Test
   public void testInvalidDTO_LongName() {
     CategoryDto dto = new CategoryDto();
-
-    RandUtil rand = new RandUtil();
-    dto.category = rand.generateRandomString(256);
+    dto.category = RandUtil.generateRandomString(256);
     Set<ConstraintViolation<CategoryDto>> violations = validator.validate(dto);
 
     assertEquals(1, violations.size());

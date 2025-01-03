@@ -3,7 +3,7 @@ package com.evilcorp.bloom.util;
 import java.util.Random;
 
 public class RandUtil {
-  public String generateRandomString(int size) {
+  public static String generateRandomString(int size) {
     final String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 ";
     Random random = new Random();
 
