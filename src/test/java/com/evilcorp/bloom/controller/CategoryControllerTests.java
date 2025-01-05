@@ -15,7 +15,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 
 import com.evilcorp.bloom.dto.CategoryDto;
 import com.evilcorp.bloom.exception.GlobalExceptionHandler;
@@ -23,7 +22,6 @@ import com.evilcorp.bloom.exception.NotFoundException;
 import com.evilcorp.bloom.model.Category;
 import com.evilcorp.bloom.service.CategoryService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jayway.jsonpath.JsonPath;
 
 import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.*;
@@ -170,5 +168,4 @@ public class CategoryControllerTests {
         .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isNotFound());
   }
-
 }
