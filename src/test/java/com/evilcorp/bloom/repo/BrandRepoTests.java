@@ -30,6 +30,5 @@ public class BrandRepoTests {
     String name = "Apple";
 
     assertFalse(brandRepo.existsByName(name));
-
   }
 }

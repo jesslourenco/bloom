@@ -12,37 +12,18 @@ import com.evilcorp.bloom.model.Category;
 import com.evilcorp.bloom.repo.CategoryRepo;
 import com.evilcorp.bloom.exception.NestedSubcategoriesException;
 import com.evilcorp.bloom.exception.NotFoundException;
+import com.evilcorp.bloom.util.CapitalizeUtil;
 
 @Service
 public class CategoryService {
-
   private final CategoryRepo categoryRepo;
-  private final String anyWhitespace;
-  private final String emptySpace;
 
   public CategoryService(CategoryRepo categoryRepo) {
     this.categoryRepo = categoryRepo;
-    this.anyWhitespace = "\\s+";
-    this.emptySpace = " ";
-
-  }
-
-  /*
-   * Capitalizes every word in a given String.
-   */
-  public String capitalize(String categoryName) {
-    if (categoryName == null || categoryName.isEmpty()) {
-      return categoryName;
-    }
-
-    return Arrays.stream(categoryName
-        .split(anyWhitespace))
-        .map(word -> word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase())
-        .collect(Collectors.joining(emptySpace));
   }
 
   public void add(CategoryDto dto) {
-    dto.category = capitalize(dto.category);
+    dto.category = CapitalizeUtil.getCapitalizedString(dto.category);
 
     Optional<Category> newCategory = categoryRepo.findByName(dto.category);
 
@@ -69,7 +50,7 @@ public class CategoryService {
   }
 
   public Category getOneByName(String name) {
-    String category = capitalize(name);
+    String category = CapitalizeUtil.getCapitalizedString(name);
 
     return categoryRepo.findByName(category)
         .orElseThrow(() -> new NotFoundException(String.format("Category %s not found", category)));
