@@ -26,10 +26,10 @@ public class ProductRepoTests {
   // @Test
   public void testFindByProductNameContaining() {
     Brand brand = new Brand("Apple");
-    brand.setId(1);
-    brandRepo.save(brand);
 
-    Product product = new Product("macbook air", "a cool laptop", null, 1, "", 3000.00, 1500.00, 0);
+    Brand savedBrand = brandRepo.save(brand);
+
+    Product product = new Product("macbook air", "a cool laptop", null, savedBrand.getId(), "", 3000.00, 1500.00, 0);
     productRepo.save(product);
 
     List<Product> foundProducts = productRepo.findByProductNameContaining("air");
