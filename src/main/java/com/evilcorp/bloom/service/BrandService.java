@@ -37,4 +37,8 @@ public class BrandService {
     brandRepo.deleteById(id);
   }
 
+  public Iterable<Brand> getAll() {
+    return brandRepo.findAll();
+  }
+
 }
