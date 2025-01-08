@@ -2,7 +2,6 @@ package com.evilcorp.bloom.dto;
 
 import java.util.Set;
 
-import org.apache.tomcat.util.bcel.classfile.Constant;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
