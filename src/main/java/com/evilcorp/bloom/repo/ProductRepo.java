@@ -1,8 +1,11 @@
 package com.evilcorp.bloom.repo;
 
-import org.springframework.data.repository.PagingAndSortingRepository;
+import java.util.List;
+
+import org.springframework.data.repository.CrudRepository;
 
 import com.evilcorp.bloom.model.Product;
 
-public interface ProductRepo extends PagingAndSortingRepository<Product, String> {
+public interface ProductRepo extends CrudRepository<Product, Integer> {
+  List<Product> findByNameContaining(String keyword);
 }
