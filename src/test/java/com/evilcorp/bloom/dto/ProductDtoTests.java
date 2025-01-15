@@ -31,11 +31,11 @@ public class ProductDtoTests {
   @BeforeEach
   public void init() {
     this.dto = new ProductDto();
-    this.dto.name = "macbook air";
-    this.dto.description = "a laptop for the casual user";
-    this.dto.brandId = 1;
-    this.dto.price = 3000.67;
-    this.dto.cost = 2000.00;
+    this.dto.setName("macbook air");
+    this.dto.setDescription("a laptop for the casual user");
+    this.dto.setBrandId(1);
+    this.dto.setPrice(3000.67);
+    this.dto.setCost(2000.00);
   }
 
   @Test
@@ -47,7 +47,7 @@ public class ProductDtoTests {
 
   @Test
   public void testInvalidDto_LongName() {
-    dto.name = generateRandomString(256);
+    dto.setName(generateRandomString(256));
 
     Set<ConstraintViolation<ProductDto>> violations = validator.validate(dto);
 
@@ -61,9 +61,9 @@ public class ProductDtoTests {
   @Test
   public void testInvalidDto_BlankFields() {
     ProductDto blankDto = new ProductDto();
-    blankDto.brandId = 1;
-    blankDto.price = 0.0;
-    blankDto.cost = 0.0;
+    blankDto.setBrandId(1);
+    blankDto.setPrice(0.0);
+    blankDto.setCost(0.0);
 
     Set<ConstraintViolation<ProductDto>> violations = validator.validate(blankDto);
 
@@ -74,9 +74,9 @@ public class ProductDtoTests {
 
   @Test
   public void testInvalidDto_NullFields() {
-    dto.brandId = null;
-    dto.price = null;
-    dto.cost = null;
+    dto.setBrandId(null);
+    dto.setPrice(null);
+    dto.setCost(null);
 
     Set<ConstraintViolation<ProductDto>> violations = validator.validate(dto);
 
@@ -87,7 +87,7 @@ public class ProductDtoTests {
 
   @Test
   public void testInvalidDto_LongDescription() {
-    dto.description = generateRandomString(4001);
+    dto.setDescription(generateRandomString(4001));
 
     Set<ConstraintViolation<ProductDto>> violations = validator.validate(dto);
 
@@ -100,7 +100,7 @@ public class ProductDtoTests {
 
   @Test
   public void testInvalidDto_LongImgUrl() {
-    dto.imgUrl = generateRandomString(2049);
+    dto.setImgUrl(generateRandomString(2049));
 
     Set<ConstraintViolation<ProductDto>> violations = validator.validate(dto);
 
@@ -113,10 +113,10 @@ public class ProductDtoTests {
 
   @Test
   public void testInvalidDto_NegativeDecimals() {
-    dto.price = -10.99;
-    dto.cost = -5.00;
-    dto.categoryId = -5;
-    dto.stockQty = -1;
+    dto.setPrice(-10.99);
+    dto.setCost(-5.00);
+    dto.setCategoryId(-5);
+    dto.setStockQty(-1);
 
     Set<ConstraintViolation<ProductDto>> violations = validator.validate(dto);
 

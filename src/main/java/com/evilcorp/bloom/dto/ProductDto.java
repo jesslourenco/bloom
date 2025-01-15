@@ -8,29 +8,93 @@ import jakarta.validation.constraints.Size;
 public class ProductDto {
   @NotBlank
   @Size(max = 255)
-  public String name;
+  private String name;
 
   @NotBlank
   @Size(max = 4000)
-  public String description;
+  private String description;
 
   @Min(0)
-  public Integer categoryId;
+  private Integer categoryId;
 
   @NotNull
-  public Integer brandId;
+  private Integer brandId;
 
   @Size(max = 2048)
-  public String imgUrl;
+  private String imgUrl;
 
   @NotNull
   @Min(0)
-  public Double price;
+  private Double price;
 
   @NotNull
   @Min(0)
-  public Double cost;
+  private Double cost;
 
   @Min(0)
-  public Integer stockQty;
+  private Integer stockQty;
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
+  public Integer getCategoryId() {
+    return categoryId;
+  }
+
+  public void setCategoryId(Integer categoryId) {
+    this.categoryId = categoryId;
+  }
+
+  public Integer getBrandId() {
+    return brandId;
+  }
+
+  public void setBrandId(Integer brandId) {
+    this.brandId = brandId;
+  }
+
+  public String getImgUrl() {
+    return imgUrl;
+  }
+
+  public void setImgUrl(String imgUrl) {
+    this.imgUrl = imgUrl;
+  }
+
+  public Double getPrice() {
+    return price;
+  }
+
+  public void setPrice(Double price) {
+    this.price = price;
+  }
+
+  public Double getCost() {
+    return cost;
+  }
+
+  public void setCost(Double cost) {
+    this.cost = cost;
+  }
+
+  public Integer getStockQty() {
+    return stockQty;
+  }
+
+  public void setStockQty(Integer stockQty) {
+    this.stockQty = stockQty;
+  }
 }
