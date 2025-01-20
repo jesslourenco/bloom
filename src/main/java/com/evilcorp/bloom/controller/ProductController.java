@@ -2,7 +2,6 @@ package com.evilcorp.bloom.controller;
 
 import java.util.List;
 
-import org.springframework.data.relational.core.sql.In;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

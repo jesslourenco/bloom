@@ -31,16 +31,7 @@ public class ProductService {
     dto.setName(CapitalizeUtil.getCapitalizedString(dto.getName()));
     Product product = productMapper.toProduct(dto);
 
-    try {
-      productRepo.save(product);
-
-    } catch (DataIntegrityViolationException e) {
-      if (e.getMessage() != null && e.getMessage().contains(psqlFKConstraintCode)) {
-        throw new NotFoundException(String.format("Foreign key violation: %s", e.getMessage()));
-      } else {
-        throw e;
-      }
-    }
+    productRepo.save(product);
   }
 
   public void update(ProductDto dto, Integer id) {
@@ -52,16 +43,8 @@ public class ProductService {
     Product product = productMapper.toProduct(dto);
 
     product.setId(id);
+    productRepo.save(product);
 
-    try {
-      productRepo.save(product);
-    } catch (DataIntegrityViolationException e) {
-      if (e.getMessage() != null && e.getMessage().contains(psqlFKConstraintCode)) {
-        throw new NotFoundException(String.format("Foreign key violation: %s", e.getMessage()));
-      } else {
-        throw e;
-      }
-    }
   }
 
   public List<Product> searchByName(String keyword) {
