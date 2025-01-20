@@ -49,3 +49,5 @@ spring:
   sql:
     init:
       mode: always
+  main:
+    lazy-initialization: true

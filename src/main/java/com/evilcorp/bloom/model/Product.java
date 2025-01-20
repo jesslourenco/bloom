@@ -7,7 +7,7 @@ import org.springframework.data.relational.core.mapping.Table;
 @Table("catalog")
 public class Product {
   @Id
-  private String id;
+  private Integer id;
 
   @Column("product_name")
   private String name;
@@ -21,8 +21,9 @@ public class Product {
   private Double cost;
   private Integer stockQty;
 
-  public Product(String name, String description, Integer categoryId, Integer brandId,
+  public Product(Integer id, String name, String description, Integer categoryId, Integer brandId,
       String imgUrl, Double price, Double cost, Integer stockQty) {
+    this.id = id;
     this.name = name;
     this.description = description;
     this.categoryId = categoryId;
@@ -33,11 +34,19 @@ public class Product {
     this.stockQty = stockQty;
   }
 
-  public String getId() {
+  public Product(String name, String description, Integer categoryId, Integer brandId,
+      String imgUrl, Double price, Double cost, Integer stockQty) {
+    this(null, name, description, categoryId, brandId, imgUrl, price, cost, stockQty);
+  }
+
+  public Product() {
+  }
+
+  public Integer getId() {
     return id;
   }
 
-  public void setId(String id) {
+  public void setId(Integer id) {
     this.id = id;
   }
 

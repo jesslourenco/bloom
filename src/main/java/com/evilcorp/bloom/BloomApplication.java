@@ -7,7 +7,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class BloomApplication {
 
   public static void main(String[] args) {
-    SpringApplication.run(BloomApplication.class, args);
+    SpringApplication app = new SpringApplication(BloomApplication.class);
+    app.setLazyInitialization(true);
+    app.run(args);
     System.out.println("Hello World!");
   }
 
