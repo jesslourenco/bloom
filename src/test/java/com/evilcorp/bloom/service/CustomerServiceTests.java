@@ -137,18 +137,15 @@ public class CustomerServiceTests {
 
   @Test
   public void testAdd() {
-    CustomerDto dto = new CustomerDto();
-    dto.name = "Jane Doe";
-    dto.emailAddress = "jane.doe@email.com";
-    dto.phoneNumber = "123-456-7890";
+    CustomerDto dto = new CustomerDto("Jane Doe", "jane.doe@email.com", "123-456-7890");
 
-    Customer mockCustomer = new Customer("Jane", "Doe", dto.emailAddress, "1234567890");
+    Customer mockCustomer = new Customer("Jane", "Doe", dto.getEmailAddress(), "1234567890");
     mockCustomer.setId(UUID.randomUUID());
 
-    when(customerRepo.existsByEmail(dto.emailAddress)).thenReturn(false);
+    when(customerRepo.existsByEmail(dto.getEmailAddress())).thenReturn(false);
     customerService.add(dto);
 
-    verify(customerRepo, times(1)).existsByEmail(dto.emailAddress);
+    verify(customerRepo, times(1)).existsByEmail(dto.getEmailAddress());
 
     verify(customerRepo, times(1))
         .save(Mockito.argThat(customer -> customer.getFirstName().equals(mockCustomer.getFirstName()) &&
@@ -159,18 +156,15 @@ public class CustomerServiceTests {
 
   @Test
   public void testAdd_LongName() {
-    CustomerDto dto = new CustomerDto();
-    dto.name = "Jane Doe of Somewhere Jr";
-    dto.emailAddress = "jane.doe@email.com";
-    dto.phoneNumber = "123-456-7890";
+    CustomerDto dto = new CustomerDto("Jane Doe of Somewhere Jr", "jane.doe@email.com", "123-456-7890");
 
-    Customer mockCustomer = new Customer("Jane", "Doe of Somewhere Jr", dto.emailAddress, "1234567890");
+    Customer mockCustomer = new Customer("Jane", "Doe of Somewhere Jr", dto.getEmailAddress(), "1234567890");
     mockCustomer.setId(UUID.randomUUID());
 
-    when(customerRepo.existsByEmail(dto.emailAddress)).thenReturn(false);
+    when(customerRepo.existsByEmail(dto.getEmailAddress())).thenReturn(false);
     customerService.add(dto);
 
-    verify(customerRepo, times(1)).existsByEmail(dto.emailAddress);
+    verify(customerRepo, times(1)).existsByEmail(dto.getEmailAddress());
 
     verify(customerRepo, times(1))
         .save(Mockito.argThat(customer -> customer.getFirstName().equals(mockCustomer.getFirstName()) &&
@@ -181,20 +175,17 @@ public class CustomerServiceTests {
 
   @Test
   public void testAdd_DuplicateEmail() {
-    CustomerDto dto = new CustomerDto();
-    dto.name = "Jane Doe";
-    dto.emailAddress = "jane.doe@email.com";
-    dto.phoneNumber = "123-456-7890";
+    CustomerDto dto = new CustomerDto("Jane Doe", "jane.doe@email.com", "123-456-7890");
 
-    Customer mockCustomer = new Customer("Jane", "Doe", dto.emailAddress, "1234567890");
+    Customer mockCustomer = new Customer("Jane", "Doe", dto.getEmailAddress(), "1234567890");
     mockCustomer.setId(UUID.randomUUID());
 
-    when(customerRepo.existsByEmail(dto.emailAddress)).thenReturn(true);
+    when(customerRepo.existsByEmail(dto.getEmailAddress())).thenReturn(true);
 
     assertThatThrownBy(() -> customerService.add(dto))
         .isInstanceOf(DataIntegrityViolationException.class);
 
-    verify(customerRepo, times(1)).existsByEmail(dto.emailAddress);
+    verify(customerRepo, times(1)).existsByEmail(dto.getEmailAddress());
     verify(customerRepo, times(0)).save(mockCustomer);
   }
 }

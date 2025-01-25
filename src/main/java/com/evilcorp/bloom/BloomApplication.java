@@ -3,13 +3,12 @@ package com.evilcorp.bloom;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication(scanBasePackages = "com.evilcorp.bloom")
+@SpringBootApplication
 public class BloomApplication {
 
   public static void main(String[] args) {
-    SpringApplication app = new SpringApplication(BloomApplication.class);
-    app.setLazyInitialization(true);
-    app.run(args);
+    SpringApplication.run(BloomApplication.class, args);
+
     System.out.println("Hello World!");
   }
 

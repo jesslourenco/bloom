@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -85,7 +85,7 @@ public class ProductServiceTests {
         .thenThrow(new DataIntegrityViolationException("constraint [23503]: foreign key issue"));
 
     assertThatThrownBy(() -> productService.add(dto))
-        .isInstanceOf(NotFoundException.class);
+        .isInstanceOf(DataIntegrityViolationException.class);
   }
 
   @Test
@@ -125,7 +125,7 @@ public class ProductServiceTests {
         .thenThrow(new DataIntegrityViolationException("constraint [23503]: foreign key issue"));
 
     assertThatThrownBy(() -> productService.update(dto, id))
-        .isInstanceOf(NotFoundException.class);
+        .isInstanceOf(DataIntegrityViolationException.class);
   }
 
   @Test

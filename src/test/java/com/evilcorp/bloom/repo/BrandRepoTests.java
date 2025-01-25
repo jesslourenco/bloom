@@ -1,7 +1,7 @@
 package com.evilcorp.bloom.repo;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
@@ -11,7 +11,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 
 import com.evilcorp.bloom.model.Brand;
-import com.evilcorp.bloom.repo.BrandRepo;
 
 @ActiveProfiles("test")
 @SpringBootTest

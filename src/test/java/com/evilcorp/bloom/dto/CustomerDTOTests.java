@@ -27,10 +27,7 @@ public class CustomerDTOTests {
 
   @Test
   public void testValidDTO() {
-    CustomerDto dto = new CustomerDto();
-    dto.name = "John Doe";
-    dto.emailAddress = "john.doe@email.com";
-    dto.phoneNumber = "123-456-7890";
+    CustomerDto dto = new CustomerDto("John Doe", "john.doe@email.com", "123-456-7890");
 
     Set<ConstraintViolation<CustomerDto>> violations = validator.validate(dto);
     assertTrue(violations.isEmpty());
@@ -38,9 +35,7 @@ public class CustomerDTOTests {
 
   @Test
   public void testValidDTO_ValidPhones() {
-    CustomerDto dto = new CustomerDto();
-    dto.name = "John Doe";
-    dto.emailAddress = "john.doe@email.com";
+    CustomerDto dto = new CustomerDto("John Doe", "john.doe@email.com", null);
 
     String[] validPhones = {
         "123-456-7890",
@@ -51,7 +46,7 @@ public class CustomerDTOTests {
     };
 
     for (String phone : validPhones) {
-      dto.phoneNumber = phone;
+      dto.setPhoneNumber(phone);
       Set<ConstraintViolation<CustomerDto>> violations = validator.validate(dto);
 
       assertTrue(violations.isEmpty());
@@ -73,8 +68,7 @@ public class CustomerDTOTests {
 
   @Test
   public void testInvalidDTO_BadFormattedEmail() {
-    CustomerDto dto = new CustomerDto();
-    dto.name = "John Doe";
+    CustomerDto dto = new CustomerDto("John Doe", null, null);
 
     String[] invalidEmails = {
         "fake",
@@ -85,7 +79,7 @@ public class CustomerDTOTests {
     };
 
     for (String email : invalidEmails) {
-      dto.emailAddress = email;
+      dto.setEmailAddress(email);
       Set<ConstraintViolation<CustomerDto>> violations = validator.validate(dto);
 
       assertFalse(violations.isEmpty());
@@ -97,9 +91,7 @@ public class CustomerDTOTests {
 
   @Test
   public void testInvalidDTO_BadFormattedPhone() {
-    CustomerDto dto = new CustomerDto();
-    dto.name = "John Doe";
-    dto.emailAddress = "john.doe@email.com";
+    CustomerDto dto = new CustomerDto("John Doe", "john.doe@email.com", null);
 
     String[] invalidPhones = {
         "123",
@@ -110,7 +102,7 @@ public class CustomerDTOTests {
     };
 
     for (String phone : invalidPhones) {
-      dto.phoneNumber = phone;
+      dto.setPhoneNumber(phone);
       Set<ConstraintViolation<CustomerDto>> violations = validator.validate(dto);
       assertFalse(violations.isEmpty());
       assertEquals(1, violations.size());

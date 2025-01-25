@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS category (
   parent_category_id INTEGER REFERENCES category(id) ON DELETE SET NULL
 );
 
-CREATE INDEX idx_category_name ON category(name);
+CREATE INDEX IF NOT EXISTS idx_category_name ON category(name);
 
 CREATE TABLE IF NOT EXISTS brands (
   id SERIAL PRIMARY KEY,
@@ -34,4 +34,4 @@ CREATE TABLE IF NOT EXISTS catalog (
   stock_qty INTEGER
 );
 
-CREATE INDEX idx_product_name_trgm ON catalog USING gin (product_name gin_trgm_ops);
+CREATE INDEX IF NOT EXISTS idx_product_name_trgm ON catalog USING gin (product_name gin_trgm_ops);
